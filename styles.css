@@ -98,3 +98,8 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 .scoreplay-tag{position:absolute;right:20px;bottom:18px;padding:8px 10px;background:#392c49;color:#f5eafa;font:8px var(--mono);letter-spacing:.09em;box-shadow:0 5px 14px #392c4922}
 @media(max-width:620px){.scoreplay-visual{min-height:255px;padding:22px 14px}.scoreplay-sheet{padding:19px 16px 14px}.scoreplay-staff{height:78px}.scoreplay-tag{right:9px;bottom:9px;font-size:7px;padding:7px 8px}.scoreplay-controls{gap:8px;font-size:8px}}
 @media(prefers-reduced-motion:reduce){.scoreplay-sheet{transition:none}}
+
+/* Match Scoreplay illustration width to the Vera and Finlit previews */
+.scoreplay-visual{padding-inline:0}
+.scoreplay-sheet{width:100%;max-width:none}
+@media(max-width:620px){.scoreplay-visual{padding-inline:0}}

@@ -49,3 +49,25 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 .about-section{grid-template-columns:minmax(0,1fr) 230px;gap:80px}
 @media(max-width:850px){.hero-composition{transform:scale(.88);transform-origin:center right;margin-left:-35px}.about-section{grid-template-columns:minmax(0,1fr) 190px;gap:45px}}
 @media(max-width:620px){.hero-composition{width:100%;height:310px;transform:scale(.9);transform-origin:center;margin:-4px 0 -2px}.composition-card{width:82%;height:245px;padding:22px}.composition-title{font-size:38px}.composition-note{right:0;bottom:19px;width:125px;padding:10px 12px}.composition-note .brand-signature-light{width:70px}.composition-colors{top:8px;left:0}.composition-colors>span{font-size:7px}.about-section{grid-template-columns:1fr;gap:20px}.about-side{border:0;padding:0;display:flex;align-items:center;gap:15px}.about-side p{margin:0}.about-side .side-tag{margin-left:auto}}
+
+/* Portfolio refinements and Finlit feature */
+.composition-card .composition-colors{position:static;left:auto;top:auto;transform:none;display:flex;align-items:center;gap:7px;margin:12px 0 0}
+.composition-card .composition-colors>span{font:8px var(--mono);letter-spacing:.08em;color:#897d96;margin-right:4px}
+.composition-card .composition-colors i{width:12px;height:12px;border-radius:50%;background:#c23f86}
+.composition-card .composition-colors i:nth-of-type(2){background:#6654a7}
+.composition-card .composition-colors i:nth-of-type(3){background:#f0d77e}
+.composition-card .composition-colors i:nth-of-type(4){background:#342747}
+.project-grid{row-gap:46px}
+.coming-pill{display:inline-block;margin-left:8px;padding:4px 7px;border-radius:999px;background:#f1e7f5;color:#8e437f;font:8px var(--mono);letter-spacing:.08em;vertical-align:1px}
+.finlit-visual{position:relative;height:440px;width:100%;overflow:hidden;border-radius:12px;background:#080b17;box-shadow:0 0 0 1px #262b40}
+.finlit-gallery{height:100%;display:grid;grid-template-columns:minmax(190px,1fr) 172px 172px;align-items:center;justify-items:center;gap:28px;padding:28px 42px}
+.finlit-brand{display:flex;flex-direction:column;align-items:center;gap:13px}
+.finlit-icon{display:block;width:184px;height:184px;object-fit:contain;filter:drop-shadow(0 12px 22px #f7b62926)}
+.finlit-game-title{display:flex;flex-direction:column;align-items:center;gap:4px}
+.finlit-game-title span{font:600 17px var(--mono);letter-spacing:.3em;color:#e6edff}
+.finlit-game-title small{font:8px var(--mono);letter-spacing:.1em;color:#8f9bbb}
+.finlit-shot{width:172px;aspect-ratio:884 / 1898;margin:0;overflow:hidden;border-radius:15px;border:1px solid #30354b;background:#080b17;box-shadow:0 12px 32px #0008}
+.finlit-shot img{display:block;width:100%;height:100%;object-fit:contain}
+.finlit-coming{position:absolute;top:20px;right:22px;padding:8px 10px;background:#151b2e;color:#e7be58;box-shadow:0 0 0 1px #39415e;border-radius:4px;font:8px var(--mono);letter-spacing:.1em}
+@media(max-width:850px){.finlit-visual{height:400px}.finlit-gallery{grid-template-columns:minmax(150px,1fr) 148px 148px;gap:16px;padding:22px}.finlit-icon{width:160px;height:160px}.finlit-shot{width:148px}}
+@media(max-width:620px){.finlit-visual{height:auto}.finlit-gallery{height:auto;grid-template-columns:1fr 1fr;gap:14px;padding:17px}.finlit-brand{grid-column:1/-1;flex-direction:row;justify-content:center;gap:15px}.finlit-icon{width:100px;height:100px}.finlit-game-title{align-items:flex-start}.finlit-shot{width:100%;aspect-ratio:884 / 1898}}

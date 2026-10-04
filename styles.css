@@ -72,10 +72,6 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 @media(max-width:850px){.finlit-visual{height:400px}.finlit-gallery{grid-template-columns:minmax(150px,1fr) 148px 148px;gap:16px;padding:22px}.finlit-icon{width:160px;height:160px}.finlit-shot{width:148px}}
 @media(max-width:620px){.finlit-visual{height:auto}.finlit-gallery{height:auto;grid-template-columns:1fr 1fr;gap:14px;padding:17px}.finlit-brand{grid-column:1/-1;flex-direction:row;justify-content:center;gap:15px}.finlit-icon{width:100px;height:100px}.finlit-game-title{align-items:flex-start}.finlit-shot{width:100%;aspect-ratio:884 / 1898}}
 
-/* Separate each project as its own portfolio entry */
-.project-grid{row-gap:28px}
-.finlit-card{border-top:1px solid #e2d9eb;padding-top:28px}
-
-/* Give Finlit a distinct project panel beneath Vera */
-.finlit-card{padding:24px;border:1px solid #e1d5eb;border-radius:16px;background:#f6f1fa}
-@media(max-width:620px){.finlit-card{padding:14px;border-radius:13px}}
+/* Mark the transition to the next project */
+.finlit-card .project-section-heading{margin:0 0 18px}
+.finlit-card .project-section-heading .eyebrow{margin:0;color:#81758f;font:500 10px var(--mono);letter-spacing:.11em}

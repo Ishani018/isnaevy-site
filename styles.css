@@ -75,3 +75,9 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 /* Mark the transition to the next project */
 .finlit-card .project-section-heading{margin:0 0 18px}
 .finlit-card .project-section-heading .eyebrow{margin:0;color:#81758f;font:500 10px var(--mono);letter-spacing:.11em}
+
+/* Subtle hover motion for the Isnaevy hero composition */
+.composition-card{transition:transform .28s ease,box-shadow .28s ease}
+.composition-backdrop{transition:transform .35s ease}
+@media(hover:hover) and (pointer:fine){.hero-composition:hover .composition-card{transform:rotate(-3deg) translateY(-5px);box-shadow:0 30px 68px #34254524,0 0 0 1px #eee7f4}.hero-composition:hover .composition-backdrop{transform:rotate(6deg) translateY(4px)}}
+@media(prefers-reduced-motion:reduce){.composition-card,.composition-backdrop{transition:none}}

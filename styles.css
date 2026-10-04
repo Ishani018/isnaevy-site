@@ -75,3 +75,7 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 /* Separate each project as its own portfolio entry */
 .project-grid{row-gap:28px}
 .finlit-card{border-top:1px solid #e2d9eb;padding-top:28px}
+
+/* Give Finlit a distinct project panel beneath Vera */
+.finlit-card{padding:24px;border:1px solid #e1d5eb;border-radius:16px;background:#f6f1fa}
+@media(max-width:620px){.finlit-card{padding:14px;border-radius:13px}}

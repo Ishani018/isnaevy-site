@@ -109,3 +109,7 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 .scoreplay-sheet{display:flex;flex-direction:column;justify-content:space-between;width:100%;max-width:none;height:100%;min-height:0;padding:25px 31px 18px;border:0;box-shadow:none;transform:none;transition:none}
 .scoreplay-card:hover .scoreplay-sheet{transform:none;box-shadow:none}
 @media(max-width:620px){.scoreplay-visual{height:255px;min-height:255px;padding:0}.scoreplay-sheet{height:100%;padding:19px 16px 14px}}
+
+/* Keep the Scoreplay play mark a crisp CSS symbol, never emoji */
+.scoreplay-play{font-size:0;padding-left:0}
+.scoreplay-play::before{content:"";width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:7px solid #fff;margin-left:2px}

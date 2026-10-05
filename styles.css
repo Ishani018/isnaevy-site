@@ -113,3 +113,8 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 /* Keep the Scoreplay play mark a crisp CSS symbol, never emoji */
 .scoreplay-play{font-size:0;padding-left:0}
 .scoreplay-play::before{content:"";width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:7px solid #fff;margin-left:2px}
+
+/* About section logo */
+.about-logo{display:block;width:138px;height:auto;margin-bottom:22px}
+@media(max-width:620px){.about-logo{width:116px;margin-bottom:18px}}
+

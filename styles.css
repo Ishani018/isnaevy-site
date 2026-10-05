@@ -119,10 +119,10 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 @media(max-width:620px){.about-logo{width:155px;margin-left:-8px;margin-bottom:4px}}
 
 
-.potted-carousel{position:relative;border-radius:10px;overflow:hidden;background:#1d1a24;box-shadow:0 0 0 1px #e4dced,0 18px 44px #39294b1f;aspect-ratio:1400 / 800}
+.potted-carousel{position:relative;border-radius:10px;overflow:hidden;background:#1d1a24;box-shadow:0 0 0 1px #e4dced,0 18px 44px #39294b1f;aspect-ratio:1340 / 747}
 .carousel-track{display:flex;height:100%;transition:transform .55s cubic-bezier(.65,0,.25,1)}
 .carousel-slide{flex:0 0 100%;margin:0;height:100%}
-.carousel-slide img{display:block;width:100%;height:100%;object-fit:cover}
+.carousel-slide img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.03)}
 .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;border-radius:50%;background:#ffffffe6;color:#281f3b;font-size:24px;line-height:1;cursor:pointer;box-shadow:0 4px 14px #0003;opacity:0;transition:opacity .2s,background .2s}
 .potted-carousel:hover .carousel-btn,.carousel-btn:focus-visible{opacity:1}
 .carousel-btn:hover{background:#fff}

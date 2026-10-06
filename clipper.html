@@ -1,47 +1,821 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#fcfaff" />
-    <meta name="description" content="Clipper is a zero-dependency in-browser sprite background remover. Clean backgrounds losslessly into transparent PNGs." />
-    <title>Clipper — lossless sprite background remover — Isnaevy</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9284664302294987" crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <header class="topbar">
-      <a class="wordmark" href="index.html#top" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a>
-      <nav aria-label="Main navigation"><a href="index.html#work">Work</a><a href="journal.html">Journal</a><a href="about.html">About</a><a class="nav-contact" href="contact.html">Say hello <span>↗︎</span></a></nav>
-    </header>
-<main>
-<div class="wrap journal-hero"><p class="eyebrow">TOOL · SPRITE UTILITY</p><h1>Clipper: lossless <em>background remover.</em></h1><p class="journal-deck">Clean flat backgrounds from sprites and icons in seconds directly in your browser.</p></div><div class="wrap journal-layout page-single"><article class="journal-body"><section><p class="eyebrow">01 / OVERVIEW</p><h2>What Clipper is</h2>
-<p><strong>Clipper</strong> is a zero-dependency in-browser tool for removing flat or solid backgrounds from sprites and icons, exporting crisp transparent PNGs <strong>losslessly</strong>. Unlike online background removers that re-encode images through lossy cloud servers, Clipper runs 100% locally on your machine via HTML5 Canvas. Only background pixels have their alpha channel set to zero—your artwork is never recompressed.</p>
-<div class="journal-callout" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-  <div><strong>Launch in your browser:</strong> Clean sprites instantly with zero installation.</div>
-  <a class="button button-dark" href="tools/clipper.html" style="padding:10px 18px;font-size:12px;">Launch Clipper tool ↗︎</a>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Clipper — lossless sprite background remover — Isnaevy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root {
+    --bg: #fcfaff;
+    --panel: #ffffff;
+    --card-item: #f7f2fb;
+    --accent: #c23f86;
+    --accent-light: #8a4b88;
+    --accent2: #6654a7;
+    --text: #281f3b;
+    --muted: #786f89;
+    --line: #e9e2f0;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans, 'DM Sans', sans-serif);
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .topbar {
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+
+  
+  .app-container-wrap {
+    width: min(1320px, calc(100% - 48px));
+    margin: 28px auto 0;
+  }
+  .main-app-wrap {
+    display: flex;
+    height: 750px;
+    max-height: 85vh;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px #e4dced, 0 20px 50px rgba(52, 37, 69, 0.1);
+    background: #ffffff;
+  }
+  @media(max-width: 860px) {
+    .main-app-wrap {
+      flex-direction: column;
+      height: 900px;
+    }
+    #sidebar {
+      width: 100% !important;
+      height: 380px;
+      border-right: none !important;
+      border-bottom: 1px solid var(--line);
+    }
+    #stageWrap {
+      height: 520px;
+    }
+  }
+
+  .main-app-wrap_old {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ── Sidebar ───────────────────────────────────────────── */
+  #sidebar {
+    width: 320px; flex-shrink: 0;
+    background: #ffffff;
+    border-right: 1px solid var(--line);
+    display: flex; flex-direction: column;
+    overflow-y: auto;
+  }
+  #sidebar h1 {
+    font-family: var(--display, 'Manrope', sans-serif);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin: 18px 18px 4px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #sidebar .sub {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.55;
+    margin: 0 18px 16px;
+  }
+  .section { padding: 14px 18px; border-top: 1px solid var(--line); }
+  .section h2 {
+    font-family: var(--mono, monospace);
+    font-size: 10px;
+    color: #8b7d99;
+    letter-spacing: 0.08em;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+  }
+
+  label.filebtn {
+    display: block; cursor: pointer;
+    background: var(--card-item);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 9px 12px;
+    margin-bottom: 6px;
+    text-align: center;
+    color: var(--text);
+    font-family: var(--sans, 'DM Sans', sans-serif);
+    font-size: 12.5px;
+    font-weight: 500;
+    transition: all .2s;
+  }
+  label.filebtn:hover { border-color: var(--accent); background: #f0e6f7; }
+  input[type=file] { display: none; }
+
+  .tool {
+    display: block; width: 100%; text-align: left; margin-bottom: 6px;
+    background: #fdfafd; border: 1px solid var(--line); color: var(--text);
+    border-radius: 8px; padding: 9px 12px; cursor: pointer;
+    font-family: var(--sans, 'DM Sans', sans-serif); font-size: 12.5px; font-weight: 600;
+    transition: all .15s;
+  }
+  .tool:hover { border-color: var(--accent); background: #f9f0f6; }
+  .tool.active { background: #faeaf3; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .tool small {
+    display: block; color: var(--muted); font-size: 11px; margin-top: 3px; font-weight: 400; line-height: 1.4;
+  }
+
+  .row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; }
+  .row label { color: var(--muted); flex: 1; font-family: var(--mono, monospace); font-size: 11px; }
+  input[type=range] { flex: 1.4; accent-color: var(--accent); }
+  .val { width: 32px; text-align: right; color: var(--text); font-family: var(--mono, monospace); font-size: 11px; }
+
+  .btn {
+    background: var(--card-item); border: 1px solid var(--line); color: var(--text);
+    border-radius: 8px; padding: 9px 12px; cursor: pointer;
+    font-family: var(--sans, 'DM Sans', sans-serif); font-size: 12px; font-weight: 500;
+    width: 100%; margin-bottom: 6px; transition: all .15s;
+  }
+  .btn:hover { border-color: var(--accent); background: #f0e6f7; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  .btn.primary:hover { background: #ab2f73; }
+  .btn.warn:hover { border-color: #e04868; color: #c22f4d; background: #fff0f3; }
+  .ctrls2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .ctrls2 .btn { margin-bottom: 0; }
+
+  .swatch {
+    display: inline-block; width: 22px; height: 22px; border-radius: 4px;
+    border: 1px solid var(--line); vertical-align: middle; margin-left: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+  }
+
+  #stageWrap {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    overflow: auto; position: relative;
+    background:
+      linear-gradient(45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(-45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #eee7f7 75%),
+      linear-gradient(-45deg, transparent 75%, #eee7f7 75%);
+    background-size: 24px 24px; background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+  }
+  #canvasStack { position: relative; max-width: 96%; max-height: 92%; }
+  #canvas, #overlay { image-rendering: pixelated; display: block; max-width: 100%; max-height: 100%; }
+  #canvas {
+    box-shadow: 0 0 0 1px #e4dced, 0 16px 40px rgba(57, 41, 75, 0.12);
+    border-radius: 6px; cursor: crosshair; background: #ffffff;
+  }
+  #overlay { position: absolute; top: 0; left: 0; pointer-events: none; }
+  .empty { color: var(--muted); text-align: center; line-height: 1.7; padding: 0 24px; font-size: 13px; }
+  .numin {
+    width: 54px; background: #fff; color: var(--text); border: 1px solid var(--line);
+    border-radius: 4px; padding: 3px 6px; font-family: var(--mono, monospace); font-size: 11px;
+  }
+  #spriteList { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  #spriteList button {
+    background: var(--card-item); border: 1px solid var(--line); color: var(--text);
+    border-radius: 6px; padding: 5px 9px; cursor: pointer; font-family: var(--mono, monospace); font-size: 11px;
+  }
+  #spriteList button:hover { border-color: var(--accent); background: #f0e6f7; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="wordmark" href="index.html" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a>
+  <nav aria-label="Main navigation"><a href="../index.html#work">Work</a><a href="journal.html">Journal</a><a href="about.html">About</a><a class="nav-contact" href="contact.html">Say hello <span>↗︎</span></a></nav>
+</header>
+
+  <div class="wrap journal-hero">
+    <p class="eyebrow">TOOL · SPRITE UTILITY</p>
+    <h1>Clipper: lossless <em>background remover.</em></h1>
+    <p class="journal-deck">Clean flat backgrounds from sprites and icons in seconds directly in your browser. Erases only background pixels with zero compression or quality loss.</p>
+  </div>
+  <div class="app-container-wrap">
+<div class="main-app-wrap">
+  <div id="sidebar">
+    <h1>✂️ CLIPPER</h1>
+    <div class="sub">Remove flat backgrounds from sprites and export a transparent
+      PNG — <b>lossless</b> (only background pixels get erased; your subject is
+      untouched). 100% in your browser.</div>
+
+    <div class="section">
+      <h2>Image</h2>
+      <label class="filebtn">Upload image<input type="file" id="fileInput" accept="image/*" /></label>
+      <div class="ctrls2">
+        <button class="btn" id="undoBtn">Undo</button>
+        <button class="btn warn" id="resetBtn">Reset</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Tool</h2>
+      <button class="tool active" data-tool="wand" id="toolWand">Magic wand
+        <small>Click a background area — erases connected similar pixels.</small></button>
+      <button class="tool" data-tool="key" id="toolKey">Color key
+        <small>Click a color — erases that color everywhere in the image.</small></button>
+      <button class="tool" data-tool="erase" id="toolErase">Eraser brush
+        <small>Click/drag to manually erase pixels.</small></button>
+      <button class="tool" data-tool="restore" id="toolRestore">Restore brush
+        <small>Click/drag to paint erased pixels back.</small></button>
+    </div>
+
+    <div class="section">
+      <h2>Settings</h2>
+      <div class="row"><label>Tolerance</label>
+        <input type="range" id="tol" min="0" max="120" value="32" />
+        <span class="val" id="tolVal">32</span></div>
+      <div class="row"><label>Edge feather</label>
+        <input type="range" id="feather" min="0" max="4" value="1" />
+        <span class="val" id="featherVal">1</span></div>
+      <div class="row"><label>Brush size</label>
+        <input type="range" id="brush" min="4" max="80" value="24" />
+        <span class="val" id="brushVal">24</span></div>
+      <div class="row"><label>Picked color</label>
+        <span class="swatch" id="swatch"></span></div>
+      <div class="row"><label>Clean up speckles</label>
+        <input type="checkbox" id="cleanup" checked style="accent-color:var(--accent)" /></div>
+    </div>
+
+    <div class="section">
+      <h2>One-click</h2>
+      <button class="btn" id="autoEdges">Auto-remove from edges
+        </button>
+      <div class="sub" style="margin:0">Flood-fills transparent from all 4 edges —
+        great when the subject doesn't touch the border.</div>
+    </div>
+
+    <div class="section">
+      <h2>Extract sprites</h2>
+      <div class="sub" style="margin:0 0 8px">Split a sheet into individual tight-
+        cropped PNGs. Remove the background first.</div>
+      <button class="btn" id="detectBlobs">Auto-detect sprites</button>
+      <div class="row" style="margin-top:6px">
+        <label>Min size (px)</label>
+        <input type="range" id="minBlob" min="1" max="60" value="8" />
+        <span class="val" id="minBlobVal">8</span>
+      </div>
+      <div class="row">
+        <label>Merge gap (px)</label>
+        <input type="range" id="mergeGap" min="0" max="12" value="2" />
+        <span class="val" id="mergeGapVal">2</span>
+      </div>
+      <div style="height:8px"></div>
+      <div class="sub" style="margin:0 0 4px">— or slice a fixed grid —</div>
+      <div class="row">
+        <label>Cols</label><input class="numin" id="gridCols" type="number" value="4" min="1" />
+        <label>Rows</label><input class="numin" id="gridRows" type="number" value="4" min="1" />
+      </div>
+      <button class="btn" id="sliceGrid">Slice grid</button>
+      <div class="sub" id="detectInfo" style="margin:6px 0 0"></div>
+    </div>
+
+    <div class="section">
+      <h2>Export</h2>
+      <button class="btn primary" id="exportBtn">Download PNG (whole)</button>
+      <button class="btn" id="exportZip" style="display:none">Download all sprites (zip)</button>
+      <div id="spriteList"></div>
+      <div class="sub" style="margin:6px 0 0">Saved as PNG with transparency — no
+        recompression of your subject.</div>
+    </div>
+  </div>
+
+  <div id="stageWrap">
+    <div id="canvasStack">
+      <canvas id="canvas"></canvas>
+      <canvas id="overlay"></canvas>
+    </div>
+    <div class="empty" id="emptyMsg">Upload a sprite to start.<br>Tip: try
+      “Auto-remove from edges”, then tidy up with the Magic wand.</div>
+  </div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d', { willReadFrequently: true });
+const overlay = document.getElementById('overlay');
+const octx = overlay.getContext('2d');
+const emptyMsg = document.getElementById('emptyMsg');
+let W = 0, H = 0;
+let history = [];          // stack of ImageData for undo
+let baseImage = null;      // original ImageData (for Reset)
+let tool = 'wand';
+let pickedColor = [255, 255, 255];
+let detectedBoxes = [];    // [{id,x,y,w,h}] from blob/grid detection
+let spriteLabelMap = null; // per-pixel blob label (auto-detect only)
+let spriteLabelW = 0;
+
+const tol = document.getElementById('tol');
+const feather = document.getElementById('feather');
+const brush = document.getElementById('brush');
+const swatch = document.getElementById('swatch');
+['tol','feather','brush','minBlob','mergeGap'].forEach(id => {
+  const el = document.getElementById(id);
+  const out = document.getElementById(id + 'Val');
+  if (el && out) el.addEventListener('input', () => out.textContent = el.value);
+});
+
+// ── File load ────────────────────────────────────────────────
+document.getElementById('fileInput').addEventListener('change', (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const img = new Image();
+  img.onload = () => {
+    W = img.naturalWidth; H = img.naturalHeight;
+    canvas.width = W; canvas.height = H;
+    overlay.width = W; overlay.height = H;
+    ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(img, 0, 0);
+    baseImage = ctx.getImageData(0, 0, W, H);
+    history = [cloneData(baseImage)];
+    detectedBoxes = []; octx.clearRect(0, 0, W, H);
+    document.getElementById('spriteList').innerHTML = '';
+    document.getElementById('exportZip').style.display = 'none';
+    document.getElementById('detectInfo').textContent = '';
+    emptyMsg.style.display = 'none';
+  };
+  img.src = URL.createObjectURL(f);
+});
+
+function cloneData(d) { return new ImageData(new Uint8ClampedArray(d.data), d.width, d.height); }
+function pushHistory() { history.push(ctx.getImageData(0, 0, W, H)); if (history.length > 40) history.shift(); }
+
+// ── Tool selection ───────────────────────────────────────────
+document.querySelectorAll('.tool').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.tool').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  tool = b.dataset.tool;
+}));
+
+// ── Canvas pointer → image pixel ─────────────────────────────
+function evtToPixel(e) {
+  const r = canvas.getBoundingClientRect();
+  const x = Math.floor((e.clientX - r.left) / r.width * W);
+  const y = Math.floor((e.clientY - r.top) / r.height * H);
+  return { x: Math.max(0, Math.min(W - 1, x)), y: Math.max(0, Math.min(H - 1, y)) };
+}
+
+let drawing = false;
+canvas.addEventListener('pointerdown', (e) => {
+  if (!W) return;
+  const { x, y } = evtToPixel(e);
+  if (tool === 'wand') { pushHistory(); floodErase(x, y); }
+  else if (tool === 'key') { pickColorAt(x, y); pushHistory(); colorKey(); }
+  else if (tool === 'restore') { drawing = true; pushHistory(); restoreAt(x, y); }
+  else if (tool === 'erase') { drawing = true; pushHistory(); eraseAt(x, y); }
+});
+canvas.addEventListener('pointermove', (e) => {
+  if (!drawing) return;
+  const { x, y } = evtToPixel(e);
+  if (tool === 'restore') restoreAt(x, y);
+  else if (tool === 'erase') eraseAt(x, y);
+});
+window.addEventListener('pointerup', () => { drawing = false; });
+
+// ── Eraser brush: manually clear pixels ──────────────────────
+function eraseAt(cx, cy) {
+  const r = Math.round(+brush.value / 2);
+  const cur = ctx.getImageData(0, 0, W, H); const d = cur.data;
+  for (let y = Math.max(0, cy - r); y <= Math.min(H - 1, cy + r); y++)
+    for (let x = Math.max(0, cx - r); x <= Math.min(W - 1, cx + r); x++) {
+      if ((x - cx) ** 2 + (y - cy) ** 2 > r * r) continue;
+      d[(y * W + x) * 4 + 3] = 0;
+    }
+  ctx.putImageData(cur, 0, 0);
+}
+
+// ── Color helpers ────────────────────────────────────────────
+function pickColorAt(x, y) {
+  const d = ctx.getImageData(x, y, 1, 1).data;
+  pickedColor = [d[0], d[1], d[2]];
+  swatch.style.background = `rgb(${d[0]},${d[1]},${d[2]})`;
+}
+// ── Perceptual color distance (LAB) ──────────────────────────
+// RGB distance treats all channels equally and doesn't match human vision; LAB
+// does, so one tolerance value behaves consistently across colors.
+function rgb2lab(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  r = r > 0.04045 ? ((r + 0.055) / 1.055) ** 2.4 : r / 12.92;
+  g = g > 0.04045 ? ((g + 0.055) / 1.055) ** 2.4 : g / 12.92;
+  b = b > 0.04045 ? ((b + 0.055) / 1.055) ** 2.4 : b / 12.92;
+  let x = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047;
+  let y = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 1.0;
+  let z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
+  const f = (t) => t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116;
+  x = f(x); y = f(y); z = f(z);
+  return [116 * y - 16, 500 * (x - y), 200 * (y - z)];
+}
+// Squared deltaE between an rgb pixel and a target LAB. Tolerance slider (0-120)
+// maps to a deltaE range; we scale it so the same slider feels natural.
+function labDist2(r, g, b, targetLab) {
+  const [L, A, B] = rgb2lab(r, g, b);
+  const dL = L - targetLab[0], dA = A - targetLab[1], dB = B - targetLab[2];
+  return dL * dL + dA * dA + dB * dB;
+}
+// Convert the 0-120 RGB-style tolerance to a LAB deltaE² threshold.
+function labTol2() { const t = (+tol.value) * 0.5; return t * t; } // ~0-60 deltaE
+// Back-compat: keep an RGB version for any callers (unused now).
+function colorDist2(r, g, b, c) {
+  const dr = r - c[0], dg = g - c[1], db = b - c[2];
+  return dr * dr + dg * dg + db * db;
+}
+
+// ── Magic wand: flood-fill erase connected similar pixels ────
+function floodErase(sx, sy) {
+  const img = ctx.getImageData(0, 0, W, H);
+  const d = img.data;
+  const idx0 = (sy * W + sx) * 4;
+  const target = [d[idx0], d[idx0 + 1], d[idx0 + 2]];
+  swatch.style.background = `rgb(${target[0]},${target[1]},${target[2]})`;
+  const targetLab = rgb2lab(target[0], target[1], target[2]);
+  const t2 = labTol2();
+  const seen = new Uint8Array(W * H);
+  const stack = [sy * W + sx];
+  while (stack.length) {
+    const p = stack.pop();
+    if (seen[p]) continue; seen[p] = 1;
+    const i = p * 4;
+    if (d[i + 3] === 0) continue;
+    if (labDist2(d[i], d[i + 1], d[i + 2], targetLab) > t2) continue;
+    d[i + 3] = 0; // erase
+    const x = p % W, y = (p / W) | 0;
+    if (x > 0) stack.push(p - 1);
+    if (x < W - 1) stack.push(p + 1);
+    if (y > 0) stack.push(p - W);
+    if (y < H - 1) stack.push(p + W);
+  }
+  ctx.putImageData(img, 0, 0);
+  applyFeather();
+}
+
+// ── Color key: erase that color everywhere ───────────────────
+function colorKey() {
+  const img = ctx.getImageData(0, 0, W, H);
+  const d = img.data; const t2 = labTol2();
+  const targetLab = rgb2lab(pickedColor[0], pickedColor[1], pickedColor[2]);
+  for (let i = 0; i < d.length; i += 4) {
+    if (d[i + 3] === 0) continue;
+    if (labDist2(d[i], d[i + 1], d[i + 2], targetLab) <= t2) d[i + 3] = 0;
+  }
+  ctx.putImageData(img, 0, 0);
+  cleanupMask();
+  applyFeather();
+}
+
+// ── Auto: flood from all four edges ──────────────────────────
+document.getElementById('autoEdges').addEventListener('click', () => {
+  if (!W) return; pushHistory();
+  const img = ctx.getImageData(0, 0, W, H);
+  const d = img.data; const t2 = labTol2();
+  const seen = new Uint8Array(W * H);
+  const stack = [];
+  const seed = (x, y) => { const i = (y * W + x) * 4; if (d[i + 3] !== 0) stack.push(y * W + x); };
+  for (let x = 0; x < W; x++) { seed(x, 0); seed(x, H - 1); }
+  for (let y = 0; y < H; y++) { seed(0, y); seed(W - 1, y); }
+  // reference = average of the 4 corners (in LAB)
+  const corners = [[0,0],[W-1,0],[0,H-1],[W-1,H-1]].map(([x,y]) => { const i=(y*W+x)*4; return [d[i],d[i+1],d[i+2]]; });
+  const refRgb = [0,1,2].map(c => Math.round(corners.reduce((s,k)=>s+k[c],0)/4));
+  const refLab = rgb2lab(refRgb[0], refRgb[1], refRgb[2]);
+  while (stack.length) {
+    const p = stack.pop(); if (seen[p]) continue; seen[p] = 1;
+    const i = p * 4; if (d[i + 3] === 0) continue;
+    if (labDist2(d[i], d[i + 1], d[i + 2], refLab) > t2) continue;
+    d[i + 3] = 0;
+    const x = p % W, y = (p / W) | 0;
+    if (x > 0) stack.push(p - 1); if (x < W - 1) stack.push(p + 1);
+    if (y > 0) stack.push(p - W); if (y < H - 1) stack.push(p + W);
+  }
+  ctx.putImageData(img, 0, 0);
+  cleanupMask();
+  applyFeather();
+});
+
+// ── Morphological cleanup: remove stray speckles + fill pinholes ──
+// One erode+dilate (open) kills lone opaque specks; one dilate+erode (close)
+// fills 1px holes. Only runs when "Clean up" is enabled.
+function cleanupMask() {
+  if (!document.getElementById('cleanup')?.checked) return;
+  const img = ctx.getImageData(0, 0, W, H); const d = img.data;
+  const A = new Uint8Array(W * H);
+  for (let p = 0; p < W * H; p++) A[p] = d[p * 4 + 3] > 16 ? 1 : 0;
+  const erode = (src) => {
+    const out = new Uint8Array(W * H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const p = y * W + x;
+      if (!src[p]) { out[p] = 0; continue; }
+      let keep = 1;
+      if (x>0&&!src[p-1]) keep=0; else if (x<W-1&&!src[p+1]) keep=0;
+      else if (y>0&&!src[p-W]) keep=0; else if (y<H-1&&!src[p+W]) keep=0;
+      out[p] = keep;
+    }
+    return out;
+  };
+  const dilate = (src) => {
+    const out = new Uint8Array(W * H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const p = y * W + x;
+      if (src[p]) { out[p] = 1; continue; }
+      let on = 0;
+      if (x>0&&src[p-1]) on=1; else if (x<W-1&&src[p+1]) on=1;
+      else if (y>0&&src[p-W]) on=1; else if (y<H-1&&src[p+W]) on=1;
+      out[p] = on;
+    }
+    return out;
+  };
+  let m = dilate(erode(A));   // open: remove speckles
+  m = erode(dilate(m));       // close: fill pinholes
+  // apply: only clear pixels the mask now marks as background (keep subject color)
+  for (let p = 0; p < W * H; p++) if (!m[p]) d[p * 4 + 3] = 0;
+  ctx.putImageData(img, 0, 0);
+}
+
+// ── Restore brush: paint original pixels back ────────────────
+function restoreAt(cx, cy) {
+  if (!baseImage) return;
+  const r = Math.round(+brush.value / 2);
+  const cur = ctx.getImageData(0, 0, W, H); const d = cur.data; const b = baseImage.data;
+  for (let y = Math.max(0, cy - r); y <= Math.min(H - 1, cy + r); y++)
+    for (let x = Math.max(0, cx - r); x <= Math.min(W - 1, cx + r); x++) {
+      if ((x - cx) ** 2 + (y - cy) ** 2 > r * r) continue;
+      const i = (y * W + x) * 4;
+      d[i] = b[i]; d[i + 1] = b[i + 1]; d[i + 2] = b[i + 2]; d[i + 3] = b[i + 3];
+    }
+  ctx.putImageData(cur, 0, 0);
+}
+
+// ── Edge feather: soften the alpha boundary (anti-alias) ─────
+function applyFeather() {
+  const f = +feather.value; if (f <= 0) return;
+  const img = ctx.getImageData(0, 0, W, H); const d = img.data;
+  const a = new Uint8ClampedArray(W * H);
+  for (let p = 0; p < W * H; p++) a[p] = d[p * 4 + 3];
+  // simple box blur of the alpha only, near edges
+  const out = new Uint8ClampedArray(a);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const p = y * W + x; const cur = a[p];
+    // only feather pixels adjacent to a transparent one
+    let edge = false;
+    if (x>0 && a[p-1]!==cur) edge = true; else if (x<W-1 && a[p+1]!==cur) edge = true;
+    else if (y>0 && a[p-W]!==cur) edge = true; else if (y<H-1 && a[p+W]!==cur) edge = true;
+    if (!edge) continue;
+    let sum = 0, n = 0;
+    for (let dy = -f; dy <= f; dy++) for (let dx = -f; dx <= f; dx++) {
+      const nx = x+dx, ny = y+dy; if (nx<0||ny<0||nx>=W||ny>=H) continue;
+      sum += a[ny*W+nx]; n++;
+    }
+    out[p] = Math.round(sum / n);
+  }
+  for (let p = 0; p < W * H; p++) d[p * 4 + 3] = out[p];
+  ctx.putImageData(img, 0, 0);
+}
+
+// ── Undo / Reset ─────────────────────────────────────────────
+document.getElementById('undoBtn').addEventListener('click', () => {
+  if (history.length > 1) { history.pop(); ctx.putImageData(history[history.length - 1], 0, 0); }
+});
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (baseImage) { ctx.putImageData(baseImage, 0, 0); history = [cloneData(baseImage)]; }
+});
+
+// ── Sprite extraction ────────────────────────────────────────
+// Auto-detect: 8-connected components of opaque pixels = sprites. A "merge gap"
+// dilates the mask first, so a sprite split into nearby pieces (flower + detached
+// petal) groups into one. Boxes are computed from the ORIGINAL pixels (the gap
+// only affects grouping, not the crop). Touching sprites merge by design.
+document.getElementById('detectBlobs').addEventListener('click', () => {
+  if (!W) return;
+  const d = ctx.getImageData(0, 0, W, H).data;
+  const gap = +(document.getElementById('mergeGap')?.value ?? 0);
+
+  // base opaque mask
+  let mask = new Uint8Array(W * H);
+  for (let p = 0; p < W * H; p++) mask[p] = d[p * 4 + 3] > 16 ? 1 : 0;
+
+  // dilate the mask by `gap` px (chebyshev) for grouping only
+  let grp = mask;
+  for (let it = 0; it < gap; it++) {
+    const out = new Uint8Array(W * H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const p = y * W + x;
+      if (grp[p]) { out[p] = 1; continue; }
+      let on = 0;
+      for (let dy = -1; dy <= 1 && !on; dy++) for (let dx = -1; dx <= 1; dx++) {
+        const nx = x + dx, ny = y + dy; if (nx<0||ny<0||nx>=W||ny>=H) continue;
+        if (grp[ny * W + nx]) { on = 1; break; }
+      }
+      out[p] = on;
+    }
+    grp = out;
+  }
+
+  // label connected components of the (possibly dilated) grouping mask, 8-conn.
+  // Keep the label map so each sprite's crop can mask out neighbours whose
+  // bounding box overlaps but whose pixels belong to a different blob.
+  const label = new Int32Array(W * H).fill(-1);
+  const boxes = [];
+  for (let s = 0; s < W * H; s++) {
+    if (!grp[s] || label[s] !== -1) continue;
+    const id = boxes.length;
+    let minX = W, minY = H, maxX = 0, maxY = 0, count = 0;
+    const stack = [s]; label[s] = id;
+    while (stack.length) {
+      const p = stack.pop();
+      const x = p % W, y = (p / W) | 0;
+      if (mask[p]) {
+        count++;
+        if (x < minX) minX = x; if (x > maxX) maxX = x;
+        if (y < minY) minY = y; if (y > maxY) maxY = y;
+      }
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+        if (!dx && !dy) continue;
+        const nx = x + dx, ny = y + dy; if (nx<0||ny<0||nx>=W||ny>=H) continue;
+        const q = ny * W + nx;
+        if (grp[q] && label[q] === -1) { label[q] = id; stack.push(q); }
+      }
+    }
+    if (count > 0) boxes.push({ id, x: minX, y: minY, w: maxX - minX + 1, h: maxY - minY + 1, count });
+  }
+  spriteLabelMap = label;       // persist for masked cropping
+  spriteLabelW = W;
+  const minSz = +document.getElementById('minBlob').value;
+  detectedBoxes = boxes.filter((b) => b.w >= minSz && b.h >= minSz);
+  drawBoxes();
+  buildSpriteList();
+  document.getElementById('detectInfo').textContent = `Found ${detectedBoxes.length} sprites.`;
+});
+
+// Grid slice: cols × rows even cells, then tight-crop each cell's opaque content.
+document.getElementById('sliceGrid').addEventListener('click', () => {
+  if (!W) return;
+  const cols = Math.max(1, +document.getElementById('gridCols').value);
+  const rows = Math.max(1, +document.getElementById('gridRows').value);
+  const cw = W / cols, ch = H / rows;
+  const d = ctx.getImageData(0, 0, W, H).data;
+  detectedBoxes = [];
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    const x0 = Math.floor(c * cw), y0 = Math.floor(r * ch);
+    const x1 = Math.floor((c + 1) * cw) - 1, y1 = Math.floor((r + 1) * ch) - 1;
+    // tight-crop opaque content inside the cell
+    let mnX = x1, mnY = y1, mxX = x0, mxY = y0, found = false;
+    for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
+      if (d[(y * W + x) * 4 + 3] > 16) { found = true; if (x < mnX) mnX = x; if (x > mxX) mxX = x; if (y < mnY) mnY = y; if (y > mxY) mxY = y; }
+    }
+    if (found) detectedBoxes.push({ x: mnX, y: mnY, w: mxX - mnX + 1, h: mxY - mnY + 1 });
+  }
+  spriteLabelMap = null; // grid cells crop as plain rects (no blob masking)
+  drawBoxes();
+  buildSpriteList();
+  document.getElementById('detectInfo').textContent = `${detectedBoxes.length} sprites from ${cols}×${rows} grid.`;
+});
+
+function drawBoxes() {
+  octx.clearRect(0, 0, W, H);
+  octx.lineWidth = Math.max(1, Math.round(W / 400));
+  octx.strokeStyle = '#f0a850';
+  octx.font = `${Math.max(10, Math.round(W / 60))}px monospace`;
+  octx.fillStyle = '#f0a850';
+  detectedBoxes.forEach((b, i) => {
+    octx.strokeRect(b.x + 0.5, b.y + 0.5, b.w, b.h);
+    octx.fillText(i + 1, b.x + 2, b.y - 2 < 10 ? b.y + 12 : b.y - 2);
+  });
+}
+
+// Extract one box to its own tightly-cropped canvas. When we have a blob label
+// map (auto-detect), mask out any pixels inside the rectangle that belong to a
+// DIFFERENT sprite — so overlapping bounding boxes don't leak neighbour pixels.
+function cropBox(b) {
+  const c = document.createElement('canvas');
+  c.width = b.w; c.height = b.h;
+  const cc = c.getContext('2d');
+  cc.drawImage(canvas, b.x, b.y, b.w, b.h, 0, 0, b.w, b.h);
+  if (spriteLabelMap && b.id !== undefined) {
+    const img = cc.getImageData(0, 0, b.w, b.h);
+    const d = img.data;
+    for (let yy = 0; yy < b.h; yy++) for (let xx = 0; xx < b.w; xx++) {
+      const srcP = (b.y + yy) * spriteLabelW + (b.x + xx);
+      if (spriteLabelMap[srcP] !== b.id) d[(yy * b.w + xx) * 4 + 3] = 0; // not this sprite
+    }
+    cc.putImageData(img, 0, 0);
+  }
+  return c;
+}
+
+function buildSpriteList() {
+  const list = document.getElementById('spriteList');
+  list.innerHTML = '';
+  detectedBoxes.forEach((b, i) => {
+    const btn = document.createElement('button');
+    btn.textContent = `↓ ${i + 1}`;
+    btn.title = `${b.w}×${b.h}`;
+    btn.onclick = () => {
+      const a = document.createElement('a');
+      a.download = `sprite_${i + 1}.png`;
+      a.href = cropBox(b).toDataURL('image/png');
+      a.click();
+    };
+    list.appendChild(btn);
+  });
+  document.getElementById('exportZip').style.display = detectedBoxes.length ? 'block' : 'none';
+}
+
+// Download all detected sprites as a zip.
+document.getElementById('exportZip').addEventListener('click', async () => {
+  if (!detectedBoxes.length || !window.JSZip) return;
+  const zip = new JSZip();
+  for (let i = 0; i < detectedBoxes.length; i++) {
+    const dataURL = cropBox(detectedBoxes[i]).toDataURL('image/png');
+    zip.file(`sprite_${i + 1}.png`, dataURL.split(',')[1], { base64: true });
+  }
+  const blob = await zip.generateAsync({ type: 'blob' });
+  const a = document.createElement('a');
+  a.download = 'sprites.zip';
+  a.href = URL.createObjectURL(blob);
+  a.click();
+});
+
+// ── Export transparent PNG (whole image) ─────────────────────
+document.getElementById('exportBtn').addEventListener('click', () => {
+  if (!W) return;
+  const a = document.createElement('a');
+  a.download = 'cutout.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+});
+
+window.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'z') { e.preventDefault(); document.getElementById('undoBtn').click(); }
+});
+</script>
 </div>
-</section>
-<section><p class="eyebrow">02 / FEATURES</p><h2>Precision pixel tools</h2>
-<ul>
-  <li><strong>Auto-remove from edges:</strong> One-click inward flood fill from all four canvas borders—cleans away backgrounds in a single tap.</li>
-  <li><strong>Magic wand tool:</strong> Click any connected background area with customizable flood-fill color tolerance.</li>
-  <li><strong>Color key mode:</strong> Erase a sampled hex color across the entire image at once.</li>
-  <li><strong>Eraser &amp; restore brushes:</strong> Paint away stubborn artifacts or selectively restore pixels if too much was removed.</li>
-  <li><strong>Edge feathering:</strong> Soften boundary transitions to avoid harsh aliasing on dark and light backgrounds.</li>
-  <li><strong>Batch export &amp; zip:</strong> Process multiple sprites and download them together in a clean ZIP bundle.</li>
-</ul>
-</section>
-<section><p class="eyebrow">03 / WHY CLIENT-SIDE MATTERS</p><h2>Lossless fidelity for game assets</h2>
-<p>In pixel art and 2D sprite rendering, palette consistency and anti-aliasing matter. Cloud background removal tools often apply machine-learning segmentation filters that fuzz sharp edges and crush subtle gradients. Clipper respects your raw raster data: only transparent alpha values are written, preserving original RGB pixel values completely intact.</p>
-<div class="journal-callout"><strong>Open Source:</strong> MIT License. Standalone HTML single-file utility. Source code available on <a href="https://github.com/Ishani018/Clipper" target="_blank" rel="noreferrer">github.com/Ishani018/Clipper</a>.</div>
-</section>
-<section class="related"><p class="eyebrow">RELATED TOOLS</p><div class="related-grid"><a class="related-card" href="plopper.html"><span>TOOL</span><strong>Plopper</strong></a><a class="related-card" href="index.html#work"><span>ALL WORK</span><strong>Back to projects</strong></a></div></section></article></div>
-</main>
-<footer class="footer wrap"><a class="wordmark" href="index.html" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a><span class="footer-note">Thoughtfully made, one idea at a time.</span><div class="footer-right"><a href="journal.html">Journal</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="https://github.com/Ishani018" target="_blank" rel="noreferrer">GitHub ↗︎</a><span>© <span id="year">2026</span> Isnaevy</span></div></footer>
+</div>
+
+  <div class="wrap journal-layout page-single" style="margin-top: 50px;">
+    <article class="journal-body">
+      <section>
+        <p class="eyebrow">01 / HOW IT WORKS</p>
+        <h2>Lossless background removal for game sprites</h2>
+        <p>Cropping backgrounds out of sprites by hand is slow, and online background removers frequently recompress your art or upload your images to remote servers. <strong>Clipper</strong> operates entirely client-side inside your browser sandbox: your graphics never leave your device.</p>
+        <p>Clipper strictly zeroes out alpha values for background pixels. Your subject's raster pixels are never modified, filtered, or recompressed, guaranteeing zero quality loss and keeping pixel-art edges clean.</p>
+      </section>
+
+      <section>
+        <p class="eyebrow">02 / TOOLING &amp; MODES</p>
+        <h2>Precision controls for clean cutouts</h2>
+        <ul>
+          <li><strong>Magic wand:</strong> Click any connected background area to flood-fill transparency with adjustable tolerance.</li>
+          <li><strong>Color key:</strong> Click a color to erase that color globally across the entire image at once.</li>
+          <li><strong>Auto-remove from edges:</strong> One-click background cleanup that flood-fills transparency inward from all four canvas edges.</li>
+          <li><strong>Eraser &amp; Restore brushes:</strong> Paint away stubborn artifacts or paint back pixels if you erased too much.</li>
+          <li><strong>Edge feathering:</strong> Smooth boundary edges for clean anti-aliasing against light or dark game environments.</li>
+          <li><strong>Sprite sheet extraction:</strong> Auto-detect and split sprite sheets into individual tight-cropped PNGs or fixed grids, downloadable as a ZIP archive.</li>
+        </ul>
+      </section>
+
+      <section>
+        <p class="eyebrow">03 / SHORTCUTS &amp; OPEN SOURCE</p>
+        <h2>Fast keyboard workflows</h2>
+        <p>Use <code>Ctrl+Z</code> or <code>Cmd+Z</code> to undo any action. The tool supports all standard image formats including PNG, JPG, and WebP.</p>
+        <div class="journal-callout">
+          <strong>Open Source:</strong> MIT License. View source code and download the standalone single-file HTML utility at <a href="https://github.com/Ishani018/Clipper" target="_blank" rel="noreferrer">github.com/Ishani018/Clipper</a>.
+        </div>
+      </section>
+
+      <section class="related">
+        <p class="eyebrow">RELATED TOOLS</p>
+        <div class="related-grid">
+          <a class="related-card" href="plopper.html"><span>TOOL</span><strong>Plopper</strong></a>
+          <a class="related-card" href="index.html#work"><span>ALL WORK</span><strong>Back to projects</strong></a>
+        </div>
+      </section>
+    </article>
+  </div>
+
+  <footer class="footer wrap">
+    <a class="wordmark" href="index.html" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a>
+    <span class="footer-note">Thoughtfully made, one idea at a time.</span>
+    <div class="footer-right">
+      <a href="journal.html">Journal</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="https://github.com/Ishani018" target="_blank" rel="noreferrer">GitHub ↗︎</a>
+      <span>© <span id="year">2026</span> Isnaevy</span>
+    </div>
+  </footer>
 <script src="script.js"></script>
 </body>
 </html>

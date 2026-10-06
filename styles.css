@@ -169,3 +169,44 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 .journal-teaser{padding:80px 0 0;max-width:640px;margin-left:max(32px,calc((100% - 1160px)/2))}
 .journal-teaser h2{font:600 37px/1.12 var(--display);letter-spacing:-.065em;margin:0 0 14px}
 .journal-teaser p:not(.eyebrow){color:#70756e;line-height:1.8;font-size:13px;margin:0 0 18px}
+
+/* home journal feature */
+.journal-feature{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:40px;padding:90px 0 20px}
+.journal-feature h2{font:600 clamp(38px,5vw,56px)/1 var(--display);letter-spacing:-.075em;margin:0 0 18px}
+.journal-feature h2 em{font-family:var(--serif);font-weight:400;color:#c23f86;letter-spacing:-.06em}
+.journal-feature-copy p:not(.eyebrow){color:#6c706a;font-size:15px;line-height:1.75;max-width:430px;margin:0 0 26px}
+.journal-feature-visual{display:grid}
+@media(max-width:850px){.journal-feature{grid-template-columns:1fr;padding-top:64px}.journal-feature-visual{height:340px}}
+
+/* journal hero & visual components */
+.journal-hero-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:30px}
+.journal-hero-grid .hero-composition{height:380px}
+@media(max-width:850px){.journal-hero-grid{grid-template-columns:1fr}.journal-hero-grid .hero-composition{height:320px}}
+.note-index{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-top:44px}
+.note-tile{position:relative;display:flex;flex-direction:column;min-height:210px;border-radius:12px;overflow:hidden;background:#342747;color:#fff;padding:16px;justify-content:flex-end;box-shadow:0 0 0 1px #e4dced;transition:transform .25s,box-shadow .25s}
+.note-tile:hover{transform:translateY(-4px);box-shadow:0 18px 38px #39294b26}
+.note-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;transition:opacity .25s,transform .4s}
+.note-tile:hover img{opacity:.7;transform:scale(1.04)}
+.note-tile:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,#281f3bdd);z-index:1}
+.note-tile>*:not(img){position:relative;z-index:2}
+.note-tile-kind{font:8px var(--mono);letter-spacing:.1em;color:#f1c3dd;margin-bottom:6px}
+.note-tile strong{font:600 20px var(--display);letter-spacing:-.05em}
+.note-tile small{font-size:11px;color:#ded2eb;margin-top:3px}
+.note-tile-plain{background:linear-gradient(145deg,#6654a7,#c23f86)}
+.note-tile-glyph{position:absolute!important;top:10px;right:18px;font:italic 84px var(--serif);color:#ffffff40;line-height:1}
+@media(max-width:850px){.note-index{grid-template-columns:1fr 1fr}}
+.journal-figure{margin:24px 0}
+.journal-figure img{display:block;width:100%;border-radius:12px;box-shadow:0 0 0 1px #e4dced,0 14px 34px #39294b18}
+.journal-figure figcaption{font:9px/1.7 var(--mono);letter-spacing:.035em;color:#958aa0;margin-top:9px}
+.shot-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:560px){.shot-pair{grid-template-columns:1fr}}
+.loop-diagram{display:flex;align-items:stretch;flex-wrap:wrap;gap:8px;margin:22px 0 8px;padding:18px;background:#f2edf8;border-radius:12px}
+.loop-diagram i{align-self:center;font-style:normal;color:#bd4b8d;font-size:18px}
+.loop-step{flex:1;min-width:92px;background:#fff;border-radius:9px;padding:12px;box-shadow:0 0 0 1px #e4dced;display:flex;flex-direction:column;gap:6px;font:600 13px/1.3 var(--display);color:#342747}
+.loop-step b{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#c23f86;color:#fff;font:600 11px var(--mono)}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}
+.stat{padding:18px;border-radius:12px;background:#fff;box-shadow:0 0 0 1px #e4dced;display:flex;flex-direction:column;gap:5px}
+.stat strong{font:600 30px var(--display);letter-spacing:-.06em;color:#6654a7}
+.stat span{font:9px/1.5 var(--mono);letter-spacing:.06em;color:#8e849a;text-transform:uppercase}
+@media(max-width:560px){.stat-row{grid-template-columns:1fr}}
+.pull-quote{margin:30px 0;padding:6px 0 6px 22px;border-left:3px solid #c23f86;font:italic 400 24px/1.35 var(--serif);letter-spacing:-.02em;color:#342747}

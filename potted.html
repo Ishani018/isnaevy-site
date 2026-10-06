@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fcfaff" />
+    <meta name="description" content="Potted is a cozy pixel-art plant nursery game built with React Native and Expo: buy seeds, plant, water, bloom, adopt pets and decorate your rooms." />
+    <title>Potted — a cozy pixel-art plant nursery game — Isnaevy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9284664302294987" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="wordmark" href="index.html#top" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a>
+      <nav aria-label="Main navigation"><a href="index.html#work">Work</a><a href="journal.html">Journal</a><a href="about.html">About</a><a class="nav-contact" href="contact.html">Say hello <span>↗︎</span></a></nav>
+    </header>
+    <main>
+<div class="wrap journal-hero"><p class="eyebrow">PROJECT · GAME</p><h1>Potted: a cozy <em>plant nursery.</em></h1><p class="journal-deck">A pixel-art game about growing flowers, adopting pets and decorating a small home.</p></div><div class="wrap journal-layout page-single"><article class="journal-body"><section><p class="eyebrow">01 / OVERVIEW</p><h2>What Potted is</h2>
+<p><strong>Potted</strong> is a relaxing plant nursery game where you buy seeds, plant them in pots, water them, and watch them bloom through growth stages. You decorate your rooms with paintings and pets, manage an inventory, and earn coins by harvesting flowers. It is built with React Native and Expo, and runs on iOS, Android and web.</p>
+<figure class="journal-figure"><img src="assets/potted-1.jpg" alt="Potted title screen" loading="lazy" /><figcaption>The title screen.</figcaption></figure></section>
+<section><p class="eyebrow">02 / THE LOOP</p><h2>Seed, plant, water, bloom</h2>
+<div class="loop-diagram"><div class="loop-step"><b>1</b><span>Buy seeds</span></div><i>→</i><div class="loop-step"><b>2</b><span>Plant</span></div><i>→</i><div class="loop-step"><b>3</b><span>Water</span></div><i>→</i><div class="loop-step"><b>4</b><span>Bloom</span></div><i>→</i><div class="loop-step"><b>5</b><span>Harvest &amp; earn coins</span></div></div>
+<p>Seeds are bought at the nursery with coins and go into your inventory. You drag them onto empty pots to plant them. To water, you drag the watering can over a planted pot and hold for two seconds; watering a seed instantly advances it to the bud stage. Each flower grows through four stages: seed, bud, slight bloom and full bloom. Harvesting at full bloom earns coins to buy more seeds.</p>
+<figure class="journal-figure"><img src="assets/potted-3.jpg" alt="Potted nursery shop" loading="lazy" /><figcaption>The nursery shop, where seeds are bought with coins.</figcaption></figure></section>
+<section><p class="eyebrow">03 / WHAT YOU CAN GROW</p><h2>Rooms, flowers and hanging plants</h2>
+<h3>Three rooms</h3><ul><li><strong>Window shelf:</strong> two wooden shelves by the window. Drag pots from the sill, plant seeds and water them.</li><li><strong>Balcony:</strong> hanging pots on curtain rods. Drag pots from the stool and hang your plants.</li><li><strong>Sunroom:</strong> a bright room with shelf pots and hanging hooks.</li></ul>
+<h3>Seven flowers</h3><p>Daisy, rose, hydrangea, snapdragon, poppy, marigold and peony.</p>
+<h3>Five hanging plants</h3><p>Jasmine, string of pearls, philodendron, petunia and bougainvillea.</p>
+<div class="shot-pair"><figure class="journal-figure"><img src="assets/potted-4.jpg" alt="Potted flower collection" loading="lazy" /><figcaption>The flower collection screen.</figcaption></figure><figure class="journal-figure"><img src="assets/potted-7.jpg" alt="Potted home" loading="lazy" /><figcaption>The home, with doors to the greenhouse, sunroom and balcony.</figcaption></figure></div></section>
+<section><p class="eyebrow">04 / THE WORLD AROUND IT</p><h2>Town, pets and decoration</h2>
+<p>A town map connects the home, the nursery, a pet adoption shop, a market and a gallery. You can adopt pets, hang paintings on your walls (six are available), and unlock achievements such as “First Bloom” and “Green Thumb”. Room backgrounds change with the seasons, there is looping ambient music with a mute toggle, and progress is saved automatically with AsyncStorage.</p>
+<div class="shot-pair"><figure class="journal-figure"><img src="assets/potted-2.jpg" alt="Potted town map" loading="lazy" /><figcaption>The town map.</figcaption></figure><figure class="journal-figure"><img src="assets/potted-5.jpg" alt="Potted pet adoption room" loading="lazy" /><figcaption>The adoption room.</figcaption></figure></div>
+<figure class="journal-figure"><img src="assets/potted-6.jpg" alt="Potted gallery" loading="lazy" /><figcaption>The gallery, where framed paintings are displayed.</figcaption></figure></section>
+<section><p class="eyebrow">05 / UNDER THE HOOD</p><h2>Tech stack</h2>
+<ul><li><strong>React Native 0.74 and Expo 51</strong> for the cross-platform app and build tooling.</li><li><strong>React Navigation</strong> for screens and transitions.</li><li><strong>Reanimated 3 and Gesture Handler</strong> for the drag-and-drop of pots, seeds and the watering can.</li><li><strong>AsyncStorage</strong> for saved game state, and <strong>Expo AV</strong> for background music.</li></ul>
+<p>The game state lives in a reducer (buy, plant, water, harvest), with separate modules for the growth-tick engine, coordinate projection and the snap points where pots and hooks sit in each room.</p>
+<div class="journal-callout"><strong>Status:</strong> in development. The source is on <a href="https://github.com/Ishani018/Potted" target="_blank" rel="noreferrer">GitHub</a>. Asset files are not included in the repository because of their size. To see why the game is designed the way it is, read the field note <a href="journal-potted.html">“Designing a cozy loop around care, not urgency”</a>.</div></section><section class="related"><p class="eyebrow">RELATED</p><div class="related-grid"><a class="related-card" href="journal-potted.html"><span>FIELD NOTE</span><strong>Designing a cozy loop around care, not urgency</strong></a><a class="related-card" href="index.html#work"><span>ALL WORK</span><strong>Back to projects</strong></a></div></section></article></div>
+    </main>
+    <footer class="footer wrap"><a class="wordmark" href="index.html" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a><span class="footer-note">Thoughtfully made, one idea at a time.</span><div class="footer-right"><a href="journal.html">Journal</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="https://github.com/Ishani018" target="_blank" rel="noreferrer">GitHub ↗︎</a><span>© <span id="year">2026</span> Isnaevy</span></div></footer>
+    <script src="script.js"></script>
+  </body>
+</html>

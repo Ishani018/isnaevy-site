@@ -210,3 +210,18 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 .stat span{font:9px/1.5 var(--mono);letter-spacing:.06em;color:#8e849a;text-transform:uppercase}
 @media(max-width:560px){.stat-row{grid-template-columns:1fr}}
 .pull-quote{margin:30px 0;padding:6px 0 6px 22px;border-left:3px solid #c23f86;font:italic 400 24px/1.35 var(--serif);letter-spacing:-.02em;color:#342747}
+
+/* article lists & related cards */
+.article-list{display:grid;gap:14px;margin-top:22px}
+.article-card{display:block;padding:22px 24px;border-radius:12px;background:#fff;box-shadow:0 0 0 1px #e4dced;transition:transform .2s,box-shadow .2s}
+.article-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px #39294b1c}
+.article-kind{font:8px var(--mono);letter-spacing:.1em;color:#bd4b8d}
+.journal-body .article-card h3{margin:8px 0 8px;font-size:22px}
+.journal-body .article-card p{margin:0 0 12px}
+.article-more{font:9px var(--mono);letter-spacing:.08em;color:#75477f}
+.journal-body section.related{border:0;padding-bottom:0}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:14px 0 20px}
+.related-card{display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:10px;background:#f2edf8;text-decoration:none!important;transition:background .2s}
+.related-card:hover{background:#eadff3}
+.related-card span{font:8px var(--mono);letter-spacing:.1em;color:#bd4b8d}
+.related-card strong{font:600 15px/1.35 var(--display);color:#342747;letter-spacing:-.03em}

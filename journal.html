@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#fcfaff" />
-    <meta name="description" content="Field notes from Ishani's work on small creative tools, games, and applied research: design decisions, open questions, and lessons from making." />
+    <meta name="description" content="Field notes from Ishani’s work on small creative tools, games, and applied research: design decisions, open questions, and lessons from making." />
     <title>Field Notes — Isnaevy</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,7 +18,7 @@
       <nav aria-label="Main navigation"><a href="index.html#work">Work</a><a href="journal.html">Journal</a><a href="about.html">About</a><a class="nav-contact" href="contact.html">Say hello <span>↗︎</span></a></nav>
     </header>
     <main>
-      <div class="wrap journal-hero journal-hero-grid">
+<div class="wrap journal-hero journal-hero-grid">
         <div class="journal-hero-copy">
           <p class="eyebrow"><span class="live-dot"></span> NOTES FROM THE WORKBENCH</p>
           <h1>Make it. Notice what happens. <em>Write it down.</em></h1>
@@ -38,126 +38,20 @@
       </div>
 
       <div class="wrap note-index" aria-label="Notes at a glance">
-        <a class="note-tile" href="#potted"><img src="assets/potted-3.jpg" alt="" loading="lazy" /><span class="note-tile-kind">GAME DESIGN</span><strong>Potted</strong><small>Care, not urgency</small></a>
-        <a class="note-tile" href="#finlit"><img src="assets/finlit-gameplay.jpg" alt="" loading="lazy" /><span class="note-tile-kind">SYSTEMS DESIGN</span><strong>Finlit</strong><small>Life and money</small></a>
-        <a class="note-tile" href="#vera-scoreplay"><img src="assets/vera-dashboard-new.jpg" alt="" loading="lazy" /><span class="note-tile-kind">INTERACTION</span><strong>Vera &amp; Scoreplay</strong><small>Creative tools</small></a>
-        <a class="note-tile note-tile-plain" href="#research"><span class="note-tile-glyph">∑</span><span class="note-tile-kind">RESEARCH DESK</span><strong>Measurement</strong><small>Score vs. confidence</small></a>
+        <a class="note-tile" href="journal-potted.html"><img src="assets/potted-3.jpg" alt="" loading="lazy" /><span class="note-tile-kind">GAME DESIGN</span><strong>Potted</strong><small>Care, not urgency</small></a>
+        <a class="note-tile" href="journal-finlit.html"><img src="assets/finlit-gameplay.jpg" alt="" loading="lazy" /><span class="note-tile-kind">SYSTEMS DESIGN</span><strong>Finlit</strong><small>Life and money</small></a>
+        <a class="note-tile" href="journal-vera-scoreplay.html"><img src="assets/vera-dashboard-new.jpg" alt="" loading="lazy" /><span class="note-tile-kind">INTERACTION</span><strong>Vera &amp; Scoreplay</strong><small>Creative tools</small></a>
+        <a class="note-tile note-tile-plain" href="journal-measurement.html"><span class="note-tile-glyph">∑</span><span class="note-tile-kind">RESEARCH DESK</span><strong>Measurement</strong><small>Score vs. confidence</small></a>
       </div>
-
-      <div class="wrap journal-layout">
-        <article class="journal-body">
-          <section id="why-notes">
-            <p class="eyebrow">01 / A PRACTICE</p>
+<div class="wrap journal-layout page-single"><article class="journal-body"><section>
+            <p class="eyebrow">ABOUT THIS JOURNAL</p>
             <h2>A project page shows the object. A field note shows the decisions.</h2>
             <p>A finished screen can make a project look inevitable. It hides the questions that shaped it: what should a player be able to do first, which controls deserve to stay visible, and how much explanation is enough? I want this journal to keep those questions attached to the work.</p>
             <p>The projects here span games, design software, music practice, and research. They do not share one subject. They do share a useful constraint: each idea has to become something a person can try, understand, or learn from. Writing about that process gives me a way to explain what the interface is for, what the current version can do, and what remains an open problem.</p>
             <div class="journal-callout"><strong>A note on evidence:</strong> I distinguish a project’s stated direction from a tested result. When I have not measured an outcome or finished a feature, I say so. A useful build log should help someone follow the work, not make a prototype sound more complete than it is.</div>
-          </section>
-
-          <section id="potted">
-            <p class="eyebrow">02 / GAME DESIGN · POTTED</p>
-            <h2>Designing a cozy loop around care, not urgency</h2>
-            <p><a href="https://github.com/Ishani018/Potted" target="_blank" rel="noreferrer">Potted</a> is a pixel-art nursery game built around growing flowers, collecting plants, adopting pets, and arranging a little shop. Its central promise is gentle progress: a seed becomes a flower because the player tended it, and that flower becomes part of a place the player can make their own.</p>
-            <p>That promise creates a design test for every system. If planting, watering, and waiting are the core actions, then a shop, collection screen, home, and pet area should make those actions feel more meaningful—not compete with them. A map can make the world legible, but too many destinations can turn a calm routine into a checklist. A collection can reward attention, but it needs to remain understandable as it grows.</p>
-            <figure class="journal-figure"><img src="assets/potted-3.jpg" alt="Potted nursery shop with seed bags on shelves" loading="lazy" /><figcaption>The nursery shop: seed prices sit on the shelf so the next purchase is always visible.</figcaption></figure>
-            <div class="loop-diagram" role="img" aria-label="Potted core loop: buy seeds, plant, water, bloom, harvest, earn coins, buy more seeds">
-              <div class="loop-step"><b>1</b><span>Buy seeds</span></div><i>→</i>
-              <div class="loop-step"><b>2</b><span>Plant</span></div><i>→</i>
-              <div class="loop-step"><b>3</b><span>Water</span></div><i>→</i>
-              <div class="loop-step"><b>4</b><span>Bloom</span></div><i>→</i>
-              <div class="loop-step"><b>5</b><span>Harvest &amp; earn coins</span></div>
-            </div>
-            <p class="journal-caption">The core loop as described in the project README. Everything else in the game should support one of these five steps.</p>
-            <h3>Questions I use to evaluate the loop</h3>
-            <ul>
-              <li>Can a new player tell what to do next without a long tutorial?</li>
-              <li>Does each visit offer a small satisfying action, even when a plant is still growing?</li>
-              <li>Do decoration and collection deepen the feeling of ownership, or just add menus?</li>
-              <li>Can the game feel rewarding without making missed days feel like failure?</li>
-            </ul>
-            <blockquote class="pull-quote">Does the player care for a plant because it feels pleasant, or because the interface pressures them?</blockquote>
-            <p>These are design questions rather than claims that every answer is solved. They give playtesting a focus: watch where a player pauses, what they remember on returning, and whether they choose to care for a plant because it feels pleasant or because the interface pressures them.</p>
-            <div class="shot-pair"><figure class="journal-figure"><img src="assets/potted-2.jpg" alt="Potted town map" loading="lazy" /><figcaption>The town map: five destinations.</figcaption></figure><figure class="journal-figure"><img src="assets/potted-5.jpg" alt="Potted pet adoption room" loading="lazy" /><figcaption>The adoption room.</figcaption></figure></div>
-            <p class="journal-caption">Project details and current source: <a href="https://github.com/Ishani018/Potted" target="_blank" rel="noreferrer">github.com/Ishani018/Potted</a>.</p>
-          </section>
-
-          <section id="finlit">
-            <p class="eyebrow">03 / SYSTEMS DESIGN · FINLIT</p>
-            <h2>Turning money decisions into a life simulation</h2>
-            <p><a href="https://github.com/Ishani018/finlit" target="_blank" rel="noreferrer">FinLit</a> is a mobile financial-literacy RPG. Its described systems connect work and salary to everyday needs, health, housing, debt, investing, family events, and long-term retirement goals. That combination interests me because it treats money as part of a life rather than as a spreadsheet detached from consequences.</p>
-            <p>The hard design problem is not adding more financial features. It is making the cause and effect readable. If the player takes a job, spends on groceries, advances a month, or buys a home, the game should make clear what changed and why. Otherwise complexity feels arbitrary, and advice arrives too late to help.</p>
-            <figure class="journal-figure"><img src="assets/finlit-gameplay.jpg" alt="Finlit gameplay showing a player's home, money and wellbeing stats" loading="lazy" /><figcaption>Finlit gameplay: money and wellbeing stats sit next to the player’s home.</figcaption></figure>
-            <div class="loop-diagram" role="img" aria-label="Cause and effect: choice, change, explanation, learning">
-              <div class="loop-step"><b>1</b><span>Player choice</span></div><i>→</i>
-              <div class="loop-step"><b>2</b><span>Visible change</span></div><i>→</i>
-              <div class="loop-step"><b>3</b><span>Month-end explanation</span></div><i>→</i>
-              <div class="loop-step"><b>4</b><span>Better next choice</span></div>
-            </div>
-            <p class="journal-caption">The readable cause-and-effect chain I want every Finlit system to follow.</p>
-            <h3>Make consequences teachable</h3>
-            <p>A useful simulation can let players explore trade-offs without pretending there is one perfect answer. Saving may protect against a surprise expense but delay a home purchase. A higher-paying job may come with a cost to energy or health. A month-end explanation can connect the result to the choice that produced it. The educational value is in that visible relationship, not in simply presenting financial vocabulary.</p>
-            <div class="stat-row"><div class="stat"><strong>Work</strong><span>salary &amp; needs</span></div><div class="stat"><strong>Home</strong><span>housing &amp; debt</span></div><div class="stat"><strong>Future</strong><span>investing &amp; retirement</span></div></div>
-            <p>For each system, I would test one question at a time: Can a player explain why their cash changed this month? Do they know which needs are urgent? Does a life event create a decision, or only a penalty? If a recommendation appears, can they see which part of their situation it responds to?</p>
-            <div class="journal-callout"><strong>Design principle:</strong> A simulation teaches best when its rules are legible enough to reason about. If the player cannot connect an outcome to a choice, adding another lesson or tooltip will not fix the underlying model.</div>
-            <p class="journal-caption">The project README describes the game loop and its current feature set: <a href="https://github.com/Ishani018/finlit" target="_blank" rel="noreferrer">FinLit on GitHub</a>.</p>
-          </section>
-
-          <section id="vera-scoreplay">
-            <p class="eyebrow">04 / INTERACTION DESIGN · VERA &amp; SCOREPLAY</p>
-            <h2>Creative tools should make the next action feel possible</h2>
-            <p>Vera is an independent creative canvas for arranging and making designs. Scoreplay Studio explores a different creative act: following sheet music and hearing it played back. The projects have different audiences and technical questions, but both ask how software can help someone move from “I have an idea” to “I can try it now.”</p>
-            <figure class="journal-figure"><img src="assets/vera-dashboard-new.jpg" alt="Vera dashboard showing design sizes, creative tools, and recent work" loading="lazy" /><figcaption>Vera’s dashboard: starting sizes, tools, and recent work in one place.</figcaption></figure>
-            <p>For a design canvas, the work is in the relationship between the object and its controls. Selection, movement, resizing, text editing, layers, and export all matter because they shape how directly a person can change what they see. A powerful editor can still feel difficult if the interface makes the current selection or next available action unclear.</p>
-            <p>For a score player, the corresponding question is whether notation and playback stay connected. The score is not merely an upload; it is the thing a musician is trying to understand. Following a part, slowing playback, and hearing the passage should support one another. When those pieces drift apart, the tool stops helping the player make sense of the music.</p>
-            <h3>One small experiment before adding a feature</h3>
-            <p>Pick one common task—change a text element, or replay a short passage—and observe where the user hesitates. Is the control hard to find? Is the feedback too subtle? Did the interface lose the user's place? This kind of focused observation is more actionable than asking whether the whole product “feels intuitive.”</p>
-            <p>That is also how I think about feature requests: start from the user’s next action, then decide whether a new control, a clearer state, or a simpler flow would help. A feature list describes what software contains. A useful tool is judged by what someone can accomplish with it.</p>
-          </section>
-
-          <section id="research">
-            <p class="eyebrow">05 / RESEARCH DESK · MEASUREMENT &amp; TRUST</p>
-            <h2>When a score is not the same thing as confidence</h2>
-            <p>My research interests include evaluating risk in systems that deploy language models. One direction is an insurance-pricing framework for organizations using LLMs; another project involved an NLP pipeline across more than 800 annual reports, using named-entity recognition, semantic search, and topic modelling. These are different tasks, but both lead to the same measurement question: what does a number actually let a decision-maker conclude?</p>
-            <p>An evaluation score can make comparisons easier while hiding what was measured, what was excluded, or how uncertain the result is. In an LLM deployment context, a benchmark result is only one observation about a particular system under particular conditions. Turning it into a pricing or governance decision calls for a transparent chain: define the exposure, explain the evidence, show how the evidence changes the assessment, and identify what the score cannot capture.</p>
-            <p>Document analysis has a related challenge. A search result or topic label can help a reader find patterns across a large collection, but it should not be mistaken for the underlying document. Entity extraction can miss aliases or merge names; semantic search can surface a relevant passage without proving the conclusion someone wants to draw. The interface should help a researcher return to the source and check the interpretation.</p>
-            <div class="stat-row"><div class="stat"><strong>800+</strong><span>annual reports analysed</span></div><div class="stat"><strong>NER</strong><span>entity recognition</span></div><div class="stat"><strong>3</strong><span>methods: NER, search, topics</span></div></div>
-            <p class="journal-caption">From the NLP pipeline described above: named-entity recognition, semantic search and topic modelling.</p>
-            <blockquote class="pull-quote">A score makes comparison easier. It does not say what was measured, what was left out, or how uncertain the result is.</blockquote>
-            <h3>A small checklist for responsible measurements</h3>
-            <ul>
-              <li>Write down the unit being evaluated and the decision the metric is meant to inform.</li>
-              <li>Keep the path from source evidence to summary visible and inspectable.</li>
-              <li>Separate observed behavior from assumptions and judgement calls.</li>
-              <li>Record uncertainty and known blind spots next to the result, not in distant fine print.</li>
-            </ul>
-            <p>This is a research direction, not a published pricing formula or a claim that one benchmark can settle risk. The useful work is making the assumptions explicit enough that another person can question, reproduce, or improve them.</p>
-          </section>
-
-          <section id="next-experiments">
-            <p class="eyebrow">06 / NEXT EXPERIMENTS</p>
-            <h2>Build logs that leave a trail someone else can follow</h2>
-            <p>I want future notes to become more specific as the projects develop: a before-and-after interaction, a bug that changed the model, a prototype that failed, or a measurement that changed what I thought I knew. For a word-search puzzle generator, for example, a useful technical note would show how a generated grid is checked for valid word placement and what happens when a requested word set cannot fit—not simply announce that puzzles can be generated.</p>
-            <p>For a creative editor, a useful breakdown would show one real editing task from selection to export. For a game, it would show how a player understood or misunderstood a loop. For research, it would state the dataset, method, and limits before presenting a conclusion. The aim is to give each write-up a concrete object to inspect and a practical question to answer.</p>
-            <p>That takes more care than publishing a list of projects. It also makes the notes more useful to the people who are curious about the work: they can see the decision, the evidence behind it, and what I would try next.</p>
-            <div class="journal-end"><p><strong>My publishing rule:</strong> write when I have something observed, made, tested, or carefully sourced to share. A note should give the reader something concrete to inspect, question, or reuse, and it should say plainly what is still unfinished.</p></div>
-          </section>
-        </article>
-
-        <aside class="journal-aside" aria-label="On this page">
-          <h2>In this notebook</h2>
-          <ol>
-            <li><a href="#why-notes">A practice of field notes</a></li>
-            <li><a href="#potted">Potted: care, not urgency</a></li>
-            <li><a href="#finlit">FinLit: life and money</a></li>
-            <li><a href="#vera-scoreplay">Vera &amp; Scoreplay</a></li>
-            <li><a href="#research">Measurement and trust</a></li>
-            <li><a href="#next-experiments">What comes next</a></li>
-          </ol>
-          <p class="aside-note">Written by Ishani. Project status and research work evolve; linked repositories are the source of truth for current implementation details.</p>
-        </aside>
-      </div>
+          </section><section><p class="eyebrow">ALL NOTES</p><h2>Field notes</h2><div class="article-list"><a class="article-card" href="journal-potted.html"><span class="article-kind">GAME DESIGN · POTTED</span><h3>Designing a cozy loop around care, not urgency</h3><p>Potted is a pixel-art nursery game built around growing flowers, collecting plants, adopting pets, and arranging a little shop. Its central promise is gentle progress: a seed becomes a flower because the…</p><span class="article-more">Read note →</span></a><a class="article-card" href="journal-finlit.html"><span class="article-kind">SYSTEMS DESIGN · FINLIT</span><h3>Turning money decisions into a life simulation</h3><p>FinLit is a mobile financial-literacy RPG. Its described systems connect work and salary to everyday needs, health, housing, debt, investing, family events, and long-term retirement goals. That combination…</p><span class="article-more">Read note →</span></a><a class="article-card" href="journal-vera-scoreplay.html"><span class="article-kind">INTERACTION DESIGN · VERA & SCOREPLAY</span><h3>Creative tools should make the next action feel possible</h3><p>Vera is an independent creative canvas for arranging and making designs. Scoreplay Studio explores a different creative act: following sheet music and hearing it played back. The projects have different…</p><span class="article-more">Read note →</span></a><a class="article-card" href="journal-measurement.html"><span class="article-kind">RESEARCH DESK · MEASUREMENT & TRUST</span><h3>When a score is not the same thing as confidence</h3><p>My research interests include evaluating risk in systems that deploy language models. One direction is an insurance-pricing framework for organizations using LLMs; another project involved an NLP pipeline…</p><span class="article-more">Read note →</span></a><a class="article-card" href="journal-next.html"><span class="article-kind">NEXT EXPERIMENTS</span><h3>Build logs that leave a trail someone else can follow</h3><p>I want future notes to become more specific as the projects develop: a before-and-after interaction, a bug that changed the model, a prototype that failed, or a measurement that changed what I thought I knew.…</p><span class="article-more">Read note →</span></a></div></section><section class="related"><p class="eyebrow">THE PROJECTS</p><div class="related-grid"><a class="related-card" href="potted.html"><span>GAME</span><strong>Potted</strong></a><a class="related-card" href="finlit.html"><span>GAME</span><strong>Finlit</strong></a><a class="related-card" href="vera.html"><span>CREATIVE CANVAS</span><strong>Vera</strong></a><a class="related-card" href="scoreplay.html"><span>MUSIC TOOL</span><strong>Scoreplay Studio</strong></a></div></section></article></div>
     </main>
     <footer class="footer wrap"><a class="wordmark" href="index.html" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a><span class="footer-note">Thoughtfully made, one idea at a time.</span><div class="footer-right"><a href="journal.html">Journal</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="https://github.com/Ishani018" target="_blank" rel="noreferrer">GitHub ↗︎</a><span>© <span id="year">2026</span> Isnaevy</span></div></footer>
-      <script src="script.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>

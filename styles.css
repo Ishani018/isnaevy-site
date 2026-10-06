@@ -366,7 +366,7 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 }
 .explore-card-main {
   display: grid;
-  grid-template-columns: 1fr 180px;
+  grid-template-columns: 1fr 215px;
   gap: 16px;
   align-items: center;
   position: relative;
@@ -428,10 +428,17 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
 }
 .explore-card-illu img {
   width: 100%;
-  max-height: 165px;
+  max-height: 200px;
   object-fit: contain;
-  filter: drop-shadow(0 8px 18px rgba(60, 40, 80, 0.08));
+  filter: drop-shadow(0 10px 20px rgba(60, 40, 80, 0.1));
   transition: transform .3s ease;
+}
+.illu-workbench img {
+  max-height: 215px;
+  transform: scale(1.08);
+}
+.explore-card:hover .illu-workbench img {
+  transform: scale(1.12) rotate(1deg);
 }
 .explore-card:hover .explore-card-illu img {
   transform: scale(1.04) rotate(1deg);

@@ -22,44 +22,107 @@
   }
   * { box-sizing: border-box; }
   html, body {
-    margin: 0; min-height: 100%;
+    margin: 0; padding: 0; width: 100%; height: 100vh; overflow: hidden;
     background: var(--bg);
     color: var(--text);
     font-family: var(--sans, 'DM Sans', sans-serif);
     font-size: 13px;
     -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
   }
-  body {
-    display: block;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
+  
 
   .topbar {
-    background: var(--bg);
+    height: 64px;
+    background: #ffffff;
     border-bottom: 1px solid var(--line);
     flex-shrink: 0;
+    width: 100%;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    z-index: 10;
   }
+  .topbar .wordmark { display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--display); color: var(--ink); text-decoration: none; }
+  .topbar nav { display: flex; align-items: center; gap: 24px; font-size: 13px; }
+  .topbar nav a { color: var(--muted); text-decoration: none; transition: color .2s; }
+  .topbar nav a:hover { color: var(--ink); }
+
 
   
-  .app-container-wrap {
-    width: min(1320px, calc(100% - 48px));
-    margin: 28px auto 0;
-  }
+  
   .main-app-wrap {
     display: flex;
-    height: 750px;
-    max-height: 85vh;
-    border-radius: 14px;
+    flex: 1;
+    width: 100%;
+    height: calc(100vh - 64px);
     overflow: hidden;
-    box-shadow: 0 0 0 1px #e4dced, 0 20px 50px rgba(52, 37, 69, 0.1);
     background: #ffffff;
+  }
+  #sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    height: 100%;
+    background: #ffffff;
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  #stageWrap {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    position: relative;
+    background:
+      linear-gradient(45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(-45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #eee7f7 75%),
+      linear-gradient(-45deg, transparent 75%, #eee7f7 75%);
+    background-size: 24px 24px;
+    background-position: 0 0, 0 12px, 12px -12px, -12px 0;
   }
   @media(max-width: 860px) {
     .main-app-wrap {
-      flex-direction: column;
-      height: 900px;
-    }
+    display: flex;
+    flex: 1;
+    width: 100%;
+    height: calc(100vh - 64px);
+    overflow: hidden;
+    background: #ffffff;
+  }
+  #sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    height: 100%;
+    background: #ffffff;
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  #stageWrap {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    position: relative;
+    background:
+      linear-gradient(45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(-45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #eee7f7 75%),
+      linear-gradient(-45deg, transparent 75%, #eee7f7 75%);
+    background-size: 24px 24px;
+    background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+  }
     #sidebar {
       width: 100% !important;
       height: 380px;
@@ -202,13 +265,7 @@
   <nav aria-label="Main navigation"><a href="../index.html#work">Work</a><a href="journal.html">Journal</a><a href="about.html">About</a><a class="nav-contact" href="contact.html">Say hello <span>↗︎</span></a></nav>
 </header>
 
-  <div class="wrap journal-hero">
-    <p class="eyebrow">TOOL · SPRITE UTILITY</p>
-    <h1>Clipper: lossless <em>background remover.</em></h1>
-    <p class="journal-deck">Clean flat backgrounds from sprites and icons in seconds directly in your browser. Erases only background pixels with zero compression or quality loss.</p>
-  </div>
-  <div class="app-container-wrap">
-<div class="main-app-wrap">
+  <div class="main-app-wrap">
   <div id="sidebar">
     <h1>✂️ CLIPPER</h1>
     <div class="sub">Remove flat backgrounds from sprites and export a transparent
@@ -761,61 +818,6 @@ window.addEventListener('keydown', (e) => {
 });
 </script>
 </div>
-</div>
-
-  <div class="wrap journal-layout page-single" style="margin-top: 50px;">
-    <article class="journal-body">
-      <section>
-        <p class="eyebrow">01 / HOW IT WORKS</p>
-        <h2>Lossless background removal for game sprites</h2>
-        <p>Cropping backgrounds out of sprites by hand is slow, and online background removers frequently recompress your art or upload your images to remote servers. <strong>Clipper</strong> operates entirely client-side inside your browser sandbox: your graphics never leave your device.</p>
-        <p>Clipper strictly zeroes out alpha values for background pixels. Your subject's raster pixels are never modified, filtered, or recompressed, guaranteeing zero quality loss and keeping pixel-art edges clean.</p>
-      </section>
-
-      <section>
-        <p class="eyebrow">02 / TOOLING &amp; MODES</p>
-        <h2>Precision controls for clean cutouts</h2>
-        <ul>
-          <li><strong>Magic wand:</strong> Click any connected background area to flood-fill transparency with adjustable tolerance.</li>
-          <li><strong>Color key:</strong> Click a color to erase that color globally across the entire image at once.</li>
-          <li><strong>Auto-remove from edges:</strong> One-click background cleanup that flood-fills transparency inward from all four canvas edges.</li>
-          <li><strong>Eraser &amp; Restore brushes:</strong> Paint away stubborn artifacts or paint back pixels if you erased too much.</li>
-          <li><strong>Edge feathering:</strong> Smooth boundary edges for clean anti-aliasing against light or dark game environments.</li>
-          <li><strong>Sprite sheet extraction:</strong> Auto-detect and split sprite sheets into individual tight-cropped PNGs or fixed grids, downloadable as a ZIP archive.</li>
-        </ul>
-      </section>
-
-      <section>
-        <p class="eyebrow">03 / SHORTCUTS &amp; OPEN SOURCE</p>
-        <h2>Fast keyboard workflows</h2>
-        <p>Use <code>Ctrl+Z</code> or <code>Cmd+Z</code> to undo any action. The tool supports all standard image formats including PNG, JPG, and WebP.</p>
-        <div class="journal-callout">
-          <strong>Open Source:</strong> MIT License. View source code and download the standalone single-file HTML utility at <a href="https://github.com/Ishani018/Clipper" target="_blank" rel="noreferrer">github.com/Ishani018/Clipper</a>.
-        </div>
-      </section>
-
-      <section class="related">
-        <p class="eyebrow">RELATED TOOLS</p>
-        <div class="related-grid">
-          <a class="related-card" href="plopper.html"><span>TOOL</span><strong>Plopper</strong></a>
-          <a class="related-card" href="index.html#work"><span>ALL WORK</span><strong>Back to projects</strong></a>
-        </div>
-      </section>
-    </article>
-  </div>
-
-  <footer class="footer wrap">
-    <a class="wordmark" href="index.html" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a>
-    <span class="footer-note">Thoughtfully made, one idea at a time.</span>
-    <div class="footer-right">
-      <a href="journal.html">Journal</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="https://github.com/Ishani018" target="_blank" rel="noreferrer">GitHub ↗︎</a>
-      <span>© <span id="year">2026</span> Isnaevy</span>
-    </div>
-  </footer>
 <script src="script.js"></script>
 </body>
 </html>

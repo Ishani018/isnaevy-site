@@ -24,44 +24,107 @@
   }
   * { box-sizing: border-box; }
   html, body {
-    margin: 0; min-height: 100%;
+    margin: 0; padding: 0; width: 100%; height: 100vh; overflow: hidden;
     background: var(--paper, #fcfaff);
     color: var(--ink, #281f3b);
     font-family: var(--sans, 'DM Sans', sans-serif);
     font-size: 13px;
     -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
   }
-  body {
-    display: block;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
+  
 
   .topbar {
-    background: var(--paper, #fcfaff);
+    height: 64px;
+    background: #ffffff;
     border-bottom: 1px solid var(--line);
     flex-shrink: 0;
+    width: 100%;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    z-index: 10;
   }
+  .topbar .wordmark { display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--display); color: var(--ink); text-decoration: none; }
+  .topbar nav { display: flex; align-items: center; gap: 24px; font-size: 13px; }
+  .topbar nav a { color: var(--muted); text-decoration: none; transition: color .2s; }
+  .topbar nav a:hover { color: var(--ink); }
+
 
   
-  .app-container-wrap {
-    width: min(1320px, calc(100% - 48px));
-    margin: 28px auto 0;
-  }
+  
   .main-app-wrap {
     display: flex;
-    height: 750px;
-    max-height: 85vh;
-    border-radius: 14px;
+    flex: 1;
+    width: 100%;
+    height: calc(100vh - 64px);
     overflow: hidden;
-    box-shadow: 0 0 0 1px #e4dced, 0 20px 50px rgba(52, 37, 69, 0.1);
     background: #ffffff;
+  }
+  #sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    height: 100%;
+    background: #ffffff;
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  #stageWrap {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    position: relative;
+    background:
+      linear-gradient(45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(-45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #eee7f7 75%),
+      linear-gradient(-45deg, transparent 75%, #eee7f7 75%);
+    background-size: 24px 24px;
+    background-position: 0 0, 0 12px, 12px -12px, -12px 0;
   }
   @media(max-width: 860px) {
     .main-app-wrap {
-      flex-direction: column;
-      height: 900px;
-    }
+    display: flex;
+    flex: 1;
+    width: 100%;
+    height: calc(100vh - 64px);
+    overflow: hidden;
+    background: #ffffff;
+  }
+  #sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    height: 100%;
+    background: #ffffff;
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  #stageWrap {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    position: relative;
+    background:
+      linear-gradient(45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(-45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #eee7f7 75%),
+      linear-gradient(-45deg, transparent 75%, #eee7f7 75%);
+    background-size: 24px 24px;
+    background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+  }
     #sidebar {
       width: 100% !important;
       height: 380px;
@@ -210,13 +273,7 @@
   <nav aria-label="Main navigation"><a href="../index.html#work">Work</a><a href="journal.html">Journal</a><a href="about.html">About</a><a class="nav-contact" href="contact.html">Say hello <span>↗︎</span></a></nav>
 </header>
 
-  <div class="wrap journal-hero">
-    <p class="eyebrow">TOOL · SPRITE PLACEMENT</p>
-    <h1>Plopper: visual <em>sprite coordinates.</em></h1>
-    <p class="journal-deck">Place sprites visually on your game background and copy exact paste-ready coordinate arrays. Zero dependencies, runs 100% in your browser.</p>
-  </div>
-  <div class="app-container-wrap">
-<div class="main-app-wrap">
+  <div class="main-app-wrap">
   <div id="sidebar">
     <h1>🫳 PLOPPER</h1>
     <div class="sub">
@@ -282,60 +339,6 @@
     </div>
   </div>
 </div>
-</div>
-
-  <div class="wrap journal-layout page-single" style="margin-top: 50px;">
-    <article class="journal-body">
-      <section>
-        <p class="eyebrow">01 / OVERVIEW</p>
-        <h2>Visual sprite placement without code trial-and-error</h2>
-        <p>Hardcoding positions like <code>{ x: 0.34, y: 0.42, w: 120 }</code> and repeatedly reloading your game or app is slow and frustrating. <strong>Plopper</strong> lets you drag, resize, mirror, and stack your sprites visually over your room or level background, then immediately gives you clean, copy-pasteable coordinate arrays in your game's native resolution.</p>
-      </section>
-
-      <section>
-        <p class="eyebrow">02 / WORKFLOW</p>
-        <h2>Simple 5-step layout loop</h2>
-        <div class="loop-diagram">
-          <div class="loop-step"><b>1</b><span>Set canvas size</span></div><i>→</i>
-          <div class="loop-step"><b>2</b><span>Upload background</span></div><i>→</i>
-          <div class="loop-step"><b>3</b><span>Drop sprite PNGs</span></div><i>→</i>
-          <div class="loop-step"><b>4</b><span>Position &amp; resize</span></div><i>→</i>
-          <div class="loop-step"><b>5</b><span>Copy JS/JSON coords</span></div>
-        </div>
-        <p>Upload any background image and multiple sprite PNGs. Drag sprites freely across the canvas, drag the corner handle to resize (aspect ratio stays locked), flip horizontally, or change z-index stacking. Fine-tune alignment using arrow keys (1px) or Shift + arrow keys (10px).</p>
-      </section>
-
-      <section>
-        <p class="eyebrow">03 / COORDINATE SPECS</p>
-        <h2>Center-anchored coordinate outputs</h2>
-        <p>Game frameworks (Phaser, PixiJS, Godot, React Native) typically position sprites using center anchors. Plopper outputs center-based coordinates (<code>x, y</code>), dimensions (<code>w, h</code>), flip status, and stacking order (<code>z</code>) as either JavaScript object arrays or raw JSON.</p>
-        <div class="journal-callout">
-          <strong>Open Source:</strong> MIT License. Zero dependencies, 100% client-side. Source on <a href="https://github.com/Ishani018/Plopper" target="_blank" rel="noreferrer">github.com/Ishani018/Plopper</a>.
-        </div>
-      </section>
-
-      <section class="related">
-        <p class="eyebrow">RELATED TOOLS</p>
-        <div class="related-grid">
-          <a class="related-card" href="clipper.html"><span>TOOL</span><strong>Clipper</strong></a>
-          <a class="related-card" href="index.html#work"><span>ALL WORK</span><strong>Back to projects</strong></a>
-        </div>
-      </section>
-    </article>
-  </div>
-
-  <footer class="footer wrap">
-    <a class="wordmark" href="index.html" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a>
-    <span class="footer-note">Thoughtfully made, one idea at a time.</span>
-    <div class="footer-right">
-      <a href="journal.html">Journal</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="https://github.com/Ishani018" target="_blank" rel="noreferrer">GitHub ↗︎</a>
-      <span>© <span id="year">2026</span> Isnaevy</span>
-    </div>
-  </footer>
 <script src="script.js"></script>
 <script>
 let BASE_W = 1376, BASE_H = 768; // configurable canvas (your game's design resolution)

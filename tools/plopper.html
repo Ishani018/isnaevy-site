@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Plopper — visual sprite placement & coordinate export — Isnaevy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root {
+    --bg: #f5f0fb;
+    --panel: #ffffff;
+    --card-item: #f8f5fc;
+    --accent: #c23f86;
+    --accent-light: #8a4b88;
+    --accent2: #6654a7;
+    --text: #281f3b;
+    --muted: #786f89;
+    --line: #e9e2f0;
+    --base-w: 1376;
+    --base-h: 768;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; height: 100%;
+    background: var(--paper, #fcfaff);
+    color: var(--ink, #281f3b);
+    font-family: var(--sans, 'DM Sans', sans-serif);
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { display: flex; height: 100vh; overflow: hidden; flex-direction: column; }
+
+  .topbar {
+    background: var(--paper, #fcfaff);
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+
+  .main-app-wrap {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ── Sidebar ───────────────────────────────────────────── */
+  #sidebar {
+    width: 320px; flex-shrink: 0;
+    background: #ffffff;
+    border-right: 1px solid var(--line);
+    display: flex; flex-direction: column;
+    overflow-y: auto;
+  }
+  #sidebar h1 {
+    font-family: var(--display, 'Manrope', sans-serif);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin: 18px 18px 4px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #sidebar .sub {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.55;
+    margin: 0 18px 16px;
+  }
+  .section { padding: 14px 18px; border-top: 1px solid var(--line); }
+  .section h2 {
+    font-family: var(--mono, monospace);
+    font-size: 10px;
+    color: #8b7d99;
+    letter-spacing: 0.08em;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+  }
+  label.filebtn {
+    display: block; cursor: pointer;
+    background: #f7f2fb;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 9px 12px;
+    margin-bottom: 6px;
+    text-align: center;
+    color: var(--text);
+    font-family: var(--sans, 'DM Sans', sans-serif);
+    font-size: 12.5px;
+    font-weight: 500;
+    transition: all .2s;
+  }
+  label.filebtn:hover { border-color: var(--accent); background: #f0e6f7; }
+  input[type=file] { display: none; }
+
+  .layer-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px; border-radius: 6px; margin-bottom: 4px;
+    background: #f7f2fb; border: 1px solid var(--line); cursor: pointer;
+    transition: all .15s;
+  }
+  .layer-row.sel { border-color: var(--accent); background: #faeaf3; box-shadow: 0 0 0 1px var(--accent); }
+  .layer-row img { width: 28px; height: 28px; object-fit: contain; flex-shrink: 0; background: #fff; border-radius: 4px; border: 1px solid var(--line); }
+  .layer-row .name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; color: var(--text); }
+  .layer-row .keyinput {
+    width: 100%; background: #ffffff; color: var(--text);
+    border: 1px solid var(--line); border-radius: 5px; padding: 4px 6px; font-family: var(--mono, monospace); font-size: 11px;
+  }
+
+  .iconbtn {
+    background: #f7f2fb; border: 1px solid var(--line); color: var(--text);
+    border-radius: 6px; padding: 6px 10px; cursor: pointer; font-family: var(--sans, 'DM Sans', sans-serif); font-size: 11.5px;
+    transition: all .15s;
+  }
+  .iconbtn:hover { border-color: var(--accent); background: #f0e6f7; }
+  .iconbtn.danger:hover { border-color: #e04868; color: #c22f4d; background: #fff0f3; }
+
+  .ctrls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .ctrls button { width: 100%; }
+  .selinfo { color: var(--muted); font-size: 12px; line-height: 1.6; margin-top: 6px; }
+  .selinfo b { color: var(--text); }
+
+  #exportArea {
+    width: 100%; height: 130px; resize: vertical;
+    background: #faf8fc; color: #281f3b; border: 1px solid var(--line);
+    border-radius: 8px; padding: 10px; font-family: var(--mono, monospace); font-size: 11px;
+  }
+  .exptabs { display: flex; gap: 6px; margin-bottom: 8px; }
+  .exptabs button.active { background: var(--text); color: #fff; border-color: var(--text); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  button.primary:hover { background: #ab2f73; }
+
+  /* ── Canvas ────────────────────────────────────────────── */
+  #stageWrap {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    overflow: auto; padding: 24px; position: relative;
+    background:
+      linear-gradient(45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(-45deg, #eee7f7 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #eee7f7 75%),
+      linear-gradient(-45deg, transparent 75%, #eee7f7 75%);
+    background-size: 24px 24px;
+    background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+  }
+  #stage {
+    position: relative; flex-shrink: 0;
+    background: #ffffff; border: 1px solid var(--line);
+    border-radius: 10px; overflow: hidden;
+    box-shadow: 0 0 0 1px #e4dced, 0 16px 40px rgba(57, 41, 75, 0.12);
+  }
+  #stageBg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .sprite { position: absolute; cursor: grab; user-select: none; }
+  .sprite.dragging { cursor: grabbing; }
+  .sprite img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; -webkit-user-drag: none; }
+  .sprite.sel { outline: 2px dashed var(--accent); outline-offset: 2px; }
+  .handle {
+    position: absolute; right: -7px; bottom: -7px;
+    width: 14px; height: 14px; background: var(--accent);
+    border: 2px solid #fff; border-radius: 3px; cursor: nwse-resize;
+  }
+  .hint { position: absolute; top: 12px; left: 16px; color: var(--muted); font-size: 11px; font-family: var(--mono, monospace); pointer-events: none; }
+  .coordbadge {
+    position: absolute; top: -22px; left: 0; white-space: nowrap;
+    background: rgba(40, 31, 59, 0.88); color: #fff; font-family: var(--mono, monospace); font-size: 10px;
+    padding: 2px 6px; border-radius: 4px; pointer-events: none;
+  }
+  .empty { color: var(--muted); text-align: center; margin-top: 30px; padding: 0 20px; line-height: 1.6; font-size: 12px; }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="wordmark" href="../index.html" aria-label="Isnaevy home"><img class="brand-signature" src="../assets/isnaevy-logo.png" alt="Isnaevy" /></a>
+  <nav aria-label="Main navigation"><a href="../index.html#work">Work</a><a href="../journal.html">Journal</a><a href="../about.html">About</a><a class="nav-contact" href="../contact.html">Say hello <span>↗︎</span></a></nav>
+</header>
+<div class="main-app-wrap">
+  <div id="sidebar">
+    <h1>🫳 PLOPPER</h1>
+    <div class="sub">
+      Drop your sprites onto a background, arrange them by eye, and copy the exact
+      coordinates — so you can position game/UI assets <b>precisely instead of
+      guessing pixel values in code</b>.
+    </div>
+
+    <div class="section">
+      <h2>How it works</h2>
+      <div class="selinfo" style="margin-top:0;">
+        1 · set your game's canvas size below<br>
+        2 · upload a background<br>
+        3 · add sprite PNGs<br>
+        4 · drag / resize / flip / re-order<br>
+        5 · <b>Copy</b> the coords into your code
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Canvas size</h2>
+      <div class="ctrls">
+        <input class="keyinput" id="baseWInput" type="number" value="1376" title="canvas width (px)" />
+        <input class="keyinput" id="baseHInput" type="number" value="768" title="canvas height (px)" />
+      </div>
+      <div class="selinfo" style="margin-top:6px;">Your game's design resolution. Coords export in this space.</div>
+    </div>
+
+    <div class="section">
+      <h2>Background</h2>
+      <label class="filebtn">Upload background<input type="file" id="bgInput" accept="image/*" /></label>
+    </div>
+
+    <div class="section">
+      <h2>Sprites</h2>
+      <label class="filebtn">Add sprite(s)<input type="file" id="spriteInput" accept="image/*" multiple /></label>
+      <div id="layers"></div>
+    </div>
+
+    <div class="section">
+      <h2>Selected</h2>
+      <div id="selPanel"><div class="selinfo">Nothing selected.</div></div>
+    </div>
+
+    <div class="section">
+      <h2>Export</h2>
+      <div class="exptabs">
+        <button class="iconbtn active" id="tabJs">JS array</button>
+        <button class="iconbtn" id="tabJson">JSON</button>
+      </div>
+      <textarea id="exportArea" readonly></textarea>
+      <div class="ctrls" style="margin-top:6px;">
+        <button class="iconbtn primary" id="copyBtn">Copy</button>
+        <button class="iconbtn" id="refreshBtn">Refresh</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="stageWrap">
+    <div id="stage">
+      <img id="stageBg" alt="" />
+      <div class="hint" id="stageHint">Upload a background to begin (or just add sprites)</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let BASE_W = 1376, BASE_H = 768; // configurable canvas (your game's design resolution)
+const stage = document.getElementById('stage');
+const stageBg = document.getElementById('stageBg');
+const stageHint = document.getElementById('stageHint');
+const layersEl = document.getElementById('layers');
+const selPanel = document.getElementById('selPanel');
+const exportArea = document.getElementById('exportArea');
+
+let sprites = [];     // { id, key, src, imgEl, el, x, y, w, h, flip, z, naturalAspect }
+let selId = null;
+let exportMode = 'js';
+let idCounter = 1;
+
+// Size the stage to fit the viewport while keeping 1376:768.
+function fitStage() {
+  const wrap = document.getElementById('stageWrap');
+  const availW = wrap.clientWidth - 48;
+  const availH = wrap.clientHeight - 48;
+  const scale = Math.min(availW / BASE_W, availH / BASE_H, 1.2);
+  stage.style.width = (BASE_W * scale) + 'px';
+  stage.style.height = (BASE_H * scale) + 'px';
+  renderSprites();
+}
+window.addEventListener('resize', fitStage);
+
+// Configurable canvas size — coords always export in this space.
+const baseWInput = document.getElementById('baseWInput');
+const baseHInput = document.getElementById('baseHInput');
+function applyBaseSize() {
+  const w = parseInt(baseWInput.value, 10);
+  const h = parseInt(baseHInput.value, 10);
+  if (w > 0) BASE_W = w;
+  if (h > 0) BASE_H = h;
+  fitStage(); updateExport();
+}
+baseWInput.addEventListener('change', applyBaseSize);
+baseHInput.addEventListener('change', applyBaseSize);
+
+function stageScale() { return stage.clientWidth / BASE_W; }
+
+// ── File uploads ─────────────────────────────────────────────
+document.getElementById('bgInput').addEventListener('change', (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  stageBg.src = URL.createObjectURL(f);
+  stageHint.style.display = 'none';
+});
+
+document.getElementById('spriteInput').addEventListener('change', (e) => {
+  [...e.target.files].forEach(addSpriteFile);
+  e.target.value = '';
+});
+
+function addSpriteFile(file) {
+  const src = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = () => {
+    const aspect = img.naturalHeight / img.naturalWidth;
+    const w = 140; // default base-px width
+    const key = file.name.replace(/\.[^.]+$/, '');
+    const sp = {
+      id: idCounter++, key, src,
+      x: BASE_W / 2, y: BASE_H / 2, w, h: w * aspect,
+      flip: false, z: sprites.length + 1, naturalAspect: aspect,
+    };
+    sprites.push(sp);
+    buildSpriteEl(sp);
+    renderLayers();
+    renderSprites();
+    selectSprite(sp.id);
+    updateExport();
+  };
+  img.src = src;
+}
+
+// ── Sprite DOM ───────────────────────────────────────────────
+function buildSpriteEl(sp) {
+  const el = document.createElement('div');
+  el.className = 'sprite';
+  el.dataset.id = sp.id;
+
+  const badge = document.createElement('div');
+  badge.className = 'coordbadge';
+
+  const img = document.createElement('img');
+  img.src = sp.src;
+
+  const handle = document.createElement('div');
+  handle.className = 'handle';
+
+  el.appendChild(badge); el.appendChild(img); el.appendChild(handle);
+  stage.appendChild(el);
+  sp.el = el; sp.badgeEl = badge;
+
+  el.addEventListener('pointerdown', (e) => {
+    if (e.target === handle) startResize(e, sp);
+    else startDrag(e, sp);
+  });
+}
+
+function renderSprites() {
+  const s = stageScale();
+  sprites.sort((a, b) => a.z - b.z).forEach((sp) => {
+    const dispW = sp.w * s, dispH = sp.h * s;
+    const left = (sp.x - sp.w / 2) * s;
+    const top = (sp.y - sp.h / 2) * s;
+    sp.el.style.left = left + 'px';
+    sp.el.style.top = top + 'px';
+    sp.el.style.width = dispW + 'px';
+    sp.el.style.height = dispH + 'px';
+    sp.el.style.zIndex = sp.z;
+    sp.el.querySelector('img').style.transform = sp.flip ? 'scaleX(-1)' : 'none';
+    sp.el.classList.toggle('sel', sp.id === selId);
+    sp.badgeEl.style.display = sp.id === selId ? 'block' : 'none';
+    sp.badgeEl.textContent = `x:${Math.round(sp.x)} y:${Math.round(sp.y)} w:${Math.round(sp.w)}`;
+  });
+}
+
+// ── Drag / resize (pointer in base-px space) ─────────────────
+function startDrag(e, sp) {
+  e.preventDefault(); selectSprite(sp.id);
+  sp.el.classList.add('dragging');
+  const s = stageScale();
+  const startX = e.clientX, startY = e.clientY;
+  const ox = sp.x, oy = sp.y;
+  function move(ev) {
+    sp.x = ox + (ev.clientX - startX) / s;
+    sp.y = oy + (ev.clientY - startY) / s;
+    renderSprites(); updateExport();
+  }
+  function up() {
+    sp.el.classList.remove('dragging');
+    window.removeEventListener('pointermove', move);
+    window.removeEventListener('pointerup', up);
+  }
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', up);
+}
+
+function startResize(e, sp) {
+  e.preventDefault(); e.stopPropagation(); selectSprite(sp.id);
+  const s = stageScale();
+  const startX = e.clientX;
+  const ow = sp.w;
+  function move(ev) {
+    const newW = Math.max(12, ow + (ev.clientX - startX) / s);
+    sp.w = newW; sp.h = newW * sp.naturalAspect;
+    renderSprites(); updateExport(); renderSelPanel();
+  }
+  function up() {
+    window.removeEventListener('pointermove', move);
+    window.removeEventListener('pointerup', up);
+  }
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', up);
+}
+
+// ── Selection + layer list ───────────────────────────────────
+function selectSprite(id) { selId = id; renderSprites(); renderLayers(); renderSelPanel(); }
+
+function renderLayers() {
+  layersEl.innerHTML = '';
+  if (!sprites.length) {
+    layersEl.innerHTML = '<div class="empty">No sprites yet.<br>Add some above.</div>';
+    return;
+  }
+  // top z first in the list
+  [...sprites].sort((a, b) => b.z - a.z).forEach((sp) => {
+    const row = document.createElement('div');
+    row.className = 'layer-row' + (sp.id === selId ? ' sel' : '');
+    row.onclick = () => selectSprite(sp.id);
+
+    const img = document.createElement('img'); img.src = sp.src;
+    const keyIn = document.createElement('input');
+    keyIn.className = 'keyinput'; keyIn.value = sp.key;
+    keyIn.onclick = (e) => e.stopPropagation();
+    keyIn.oninput = () => { sp.key = keyIn.value; updateExport(); };
+
+    const nameWrap = document.createElement('div'); nameWrap.className = 'name'; nameWrap.appendChild(keyIn);
+
+    row.appendChild(img); row.appendChild(nameWrap);
+    layersEl.appendChild(row);
+  });
+}
+
+function renderSelPanel() {
+  const sp = sprites.find((s) => s.id === selId);
+  if (!sp) { selPanel.innerHTML = '<div class="selinfo">Nothing selected.</div>'; return; }
+  selPanel.innerHTML = `
+    <div class="ctrls">
+      <button class="iconbtn" id="flipBtn">Flip H ${sp.flip ? '✓' : ''}</button>
+      <button class="iconbtn" id="dupBtn">Duplicate</button>
+      <button class="iconbtn" id="fwdBtn">Bring fwd</button>
+      <button class="iconbtn" id="bwdBtn">Send back</button>
+      <button class="iconbtn" id="smBtn">– size</button>
+      <button class="iconbtn" id="lgBtn">+ size</button>
+    </div>
+    <button class="iconbtn danger" id="delBtn" style="width:100%;margin-top:6px;">Delete</button>
+    <div class="selinfo">
+      key <b>${sp.key}</b><br>
+      x <b>${Math.round(sp.x)}</b> · y <b>${Math.round(sp.y)}</b><br>
+      w <b>${Math.round(sp.w)}</b> · h <b>${Math.round(sp.h)}</b> · z <b>${sp.z}</b> · flip <b>${sp.flip}</b>
+    </div>`;
+  selPanel.querySelector('#flipBtn').onclick = () => { sp.flip = !sp.flip; renderSprites(); renderSelPanel(); updateExport(); };
+  selPanel.querySelector('#dupBtn').onclick = () => duplicate(sp);
+  selPanel.querySelector('#fwdBtn').onclick = () => { bringForward(sp); };
+  selPanel.querySelector('#bwdBtn').onclick = () => { sendBack(sp); };
+  selPanel.querySelector('#smBtn').onclick = () => { sp.w = Math.max(12, sp.w - 10); sp.h = sp.w * sp.naturalAspect; renderSprites(); renderSelPanel(); updateExport(); };
+  selPanel.querySelector('#lgBtn').onclick = () => { sp.w += 10; sp.h = sp.w * sp.naturalAspect; renderSprites(); renderSelPanel(); updateExport(); };
+  selPanel.querySelector('#delBtn').onclick = () => deleteSprite(sp);
+}
+
+function normalizeZ() {
+  sprites.sort((a, b) => a.z - b.z).forEach((sp, i) => sp.z = i + 1);
+  renderSprites(); renderLayers(); renderSelPanel(); updateExport();
+}
+
+// Swap the sprite with the one directly above it in z-order (and vice-versa).
+function bringForward(sp) {
+  const ordered = [...sprites].sort((a, b) => a.z - b.z);
+  const i = ordered.indexOf(sp);
+  if (i < ordered.length - 1) {
+    const other = ordered[i + 1];
+    const tmp = sp.z; sp.z = other.z; other.z = tmp;
+  }
+  normalizeZ();
+}
+function sendBack(sp) {
+  const ordered = [...sprites].sort((a, b) => a.z - b.z);
+  const i = ordered.indexOf(sp);
+  if (i > 0) {
+    const other = ordered[i - 1];
+    const tmp = sp.z; sp.z = other.z; other.z = tmp;
+  }
+  normalizeZ();
+}
+
+function duplicate(sp) {
+  const copy = { ...sp, id: idCounter++, x: sp.x + 30, y: sp.y + 30, z: sprites.length + 1, el: null, badgeEl: null };
+  sprites.push(copy); buildSpriteEl(copy); renderLayers(); renderSprites(); selectSprite(copy.id); updateExport();
+}
+
+function deleteSprite(sp) {
+  sp.el.remove();
+  sprites = sprites.filter((s) => s.id !== sp.id);
+  if (selId === sp.id) selId = null;
+  normalizeZ();
+}
+
+// ── Export ───────────────────────────────────────────────────
+function layoutData() {
+  return [...sprites].sort((a, b) => a.z - b.z).map((sp) => ({
+    key: sp.key,
+    x: Math.round(sp.x),
+    y: Math.round(sp.y),
+    w: Math.round(sp.w),
+    h: Math.round(sp.h),
+    flip: sp.flip,
+    z: sp.z,
+  }));
+}
+function updateExport() {
+  const data = layoutData();
+  if (exportMode === 'json') {
+    exportArea.value = JSON.stringify(data, null, 2);
+  } else {
+    const lines = data.map((d) =>
+      `  { key: '${d.key}', x: ${d.x}, y: ${d.y}, w: ${d.w}, h: ${d.h}, flip: ${d.flip}, z: ${d.z} },`);
+    exportArea.value = '[\n' + lines.join('\n') + '\n]';
+  }
+}
+document.getElementById('tabJs').onclick = (e) => { exportMode = 'js'; setTab(e.target); updateExport(); };
+document.getElementById('tabJson').onclick = (e) => { exportMode = 'json'; setTab(e.target); updateExport(); };
+function setTab(btn) {
+  document.getElementById('tabJs').classList.toggle('active', btn.id === 'tabJs');
+  document.getElementById('tabJson').classList.toggle('active', btn.id === 'tabJson');
+}
+document.getElementById('refreshBtn').onclick = updateExport;
+document.getElementById('copyBtn').onclick = async () => {
+  updateExport();
+  try { await navigator.clipboard.writeText(exportArea.value); flash('Copied!'); }
+  catch { exportArea.select(); document.execCommand('copy'); flash('Copied!'); }
+};
+function flash(msg) {
+  const b = document.getElementById('copyBtn'); const t = b.textContent;
+  b.textContent = msg; setTimeout(() => (b.textContent = t), 900);
+}
+
+// Click empty stage = deselect
+stage.addEventListener('pointerdown', (e) => { if (e.target === stage || e.target === stageBg) selectSprite(null); });
+
+// Keyboard nudge for the selected sprite (arrow keys; shift = ×10)
+window.addEventListener('keydown', (e) => {
+  const sp = sprites.find((s) => s.id === selId); if (!sp) return;
+  const step = e.shiftKey ? 10 : 1;
+  if (e.key === 'ArrowLeft')  sp.x -= step;
+  else if (e.key === 'ArrowRight') sp.x += step;
+  else if (e.key === 'ArrowUp')    sp.y -= step;
+  else if (e.key === 'ArrowDown')  sp.y += step;
+  else if (e.key === 'Delete' || e.key === 'Backspace') { deleteSprite(sp); return; }
+  else return;
+  e.preventDefault(); renderSprites(); renderSelPanel(); updateExport();
+});
+
+fitStage(); renderLayers(); updateExport();
+</script>
+</body>
+</html>

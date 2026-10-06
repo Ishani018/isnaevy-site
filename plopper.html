@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fcfaff" />
+    <meta name="description" content="Plopper is a tiny visual tool for arranging sprites on a background and copying exact coordinates for game engines and web apps." />
+    <title>Plopper — visual sprite placement & coordinate export — Isnaevy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9284664302294987" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="wordmark" href="index.html#top" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a>
+      <nav aria-label="Main navigation"><a href="index.html#work">Work</a><a href="journal.html">Journal</a><a href="about.html">About</a><a class="nav-contact" href="contact.html">Say hello <span>↗︎</span></a></nav>
+    </header>
+<main>
+<div class="wrap journal-hero"><p class="eyebrow">TOOL · SPRITE PLACEMENT</p><h1>Plopper: visual <em>sprite coordinates.</em></h1><p class="journal-deck">Place sprites visually on your game background and copy exact paste-ready coordinate arrays.</p></div><div class="wrap journal-layout page-single"><article class="journal-body"><section><p class="eyebrow">01 / OVERVIEW</p><h2>What Plopper is</h2>
+<p><strong>Plopper</strong> is a zero-dependency visual sprite placement and coordinate export tool. When building games or web interfaces, positioning sprites by hand coding numbers (<code>x: 230, y: 442</code>) and constantly reloading the game loop is tedious and imprecise. Plopper eliminates trial-and-error by letting you arrange sprites visually on your actual background and instantly copying paste-ready coordinate arrays.</p>
+<div class="journal-callout" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+  <div><strong>Try it online now:</strong> Launch the interactive tool in your browser.</div>
+  <a class="button button-dark" href="tools/plopper.html" style="padding:10px 18px;font-size:12px;">Launch Plopper tool ↗︎</a>
+</div>
+</section>
+<section><p class="eyebrow">02 / WORKFLOW</p><h2>Drag, arrange, and export</h2>
+<div class="loop-diagram">
+  <div class="loop-step"><b>1</b><span>Set canvas size</span></div><i>→</i>
+  <div class="loop-step"><b>2</b><span>Upload background</span></div><i>→</i>
+  <div class="loop-step"><b>3</b><span>Drop sprite PNGs</span></div><i>→</i>
+  <div class="loop-step"><b>4</b><span>Position &amp; resize</span></div><i>→</i>
+  <div class="loop-step"><b>5</b><span>Copy JS/JSON coords</span></div>
+</div>
+<p>Set your game’s native resolution (e.g. 1376 × 768), drop in your level or room background, and multi-select your sprite assets. You can drag sprites, grab corner handles to resize (aspect-ratio locked), mirror/flip horizontally, adjust z-index stacking order, and nudge by 1px or 10px with keyboard arrows.</p>
+</section>
+<section><p class="eyebrow">03 / TECHNICAL DETAILS</p><h2>Center-anchored coordinate outputs</h2>
+<p>Most 2D game engines (like Phaser, Pixi, Godot, or React Native custom layout engines) calculate sprite positions from center anchors. Plopper automatically normalizes and outputs coordinates with center points (<code>x, y</code>), dimensions (<code>w, h</code>), flip boolean, and z-order.</p>
+<pre style="background:#f2edf8;padding:16px;border-radius:10px;font-family:var(--mono,monospace);font-size:12px;color:#342747;overflow-x:auto;">[
+  { key: 'flower_pot', x: 230, y: 442, w: 120, h: 110, flip: false, z: 1 },
+  { key: 'persian_cat', x: 96,  y: 690, w: 150, h: 140, flip: true,  z: 2 }
+]</pre>
+<div class="journal-callout"><strong>Open Source:</strong> MIT License. Full source and single-file download on <a href="https://github.com/Ishani018/Plopper" target="_blank" rel="noreferrer">github.com/Ishani018/Plopper</a>.</div>
+</section>
+<section class="related"><p class="eyebrow">RELATED TOOLS</p><div class="related-grid"><a class="related-card" href="dropper.html"><span>TOOL</span><strong>Dropper</strong></a><a class="related-card" href="index.html#work"><span>ALL WORK</span><strong>Back to projects</strong></a></div></section></article></div>
+</main>
+<footer class="footer wrap"><a class="wordmark" href="index.html" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a><span class="footer-note">Thoughtfully made, one idea at a time.</span><div class="footer-right"><a href="journal.html">Journal</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="https://github.com/Ishani018" target="_blank" rel="noreferrer">GitHub ↗︎</a><span>© <span id="year">2026</span> Isnaevy</span></div></footer>
+<script src="script.js"></script>
+</body>
+</html>

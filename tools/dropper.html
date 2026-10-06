@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dropper — recolor video background online — Isnaevy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body {
+    background: var(--paper, #fcfaff);
+    color: var(--ink, #281f3b);
+    font-family: var(--sans, 'DM Sans', sans-serif);
+    min-height: 100vh;
+    padding: 0;
+  }
+  .tool-topbar {
+    height: 70px;
+    border-bottom: 1px solid var(--line, #e9e2f0);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto 30px;
+  }
+  .tool-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font: 600 15px var(--display, 'Manrope', sans-serif);
+    text-decoration: none;
+    color: var(--ink, #281f3b);
+  }
+  .tool-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font: 500 13px var(--mono, monospace);
+  }
+  .tool-nav a {
+    color: #75477f;
+    text-decoration: none;
+  }
+  .tool-nav a:hover {
+    text-decoration: underline;
+  }
+  .app {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+  header h1 {
+    font-family: var(--display, 'Manrope', sans-serif);
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 42px);
+    letter-spacing: -0.06em;
+    color: var(--ink, #281f3b);
+  }
+  header h1 em {
+    font-family: var(--serif, Georgia, serif);
+    font-weight: 400;
+    color: #c23f86;
+    font-style: italic;
+  }
+  header p {
+    color: #6c706a;
+    margin-top: 10px;
+    font-size: 15px;
+    max-width: 65ch;
+    line-height: 1.65;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 28px;
+    margin-top: 32px;
+  }
+  @media(max-width: 880px){ .grid { grid-template-columns: 1fr; } }
+  
+  .stage {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background:
+      linear-gradient(45deg, #eee7f7 25%, transparent 25%, transparent 75%, #eee7f7 75%),
+      linear-gradient(45deg, #eee7f7 25%, #faf8fc 25%, #faf8fc 75%, #eee7f7 75%);
+    background-size: 24px 24px;
+    background-position: 0 0, 12px 12px;
+    box-shadow: 0 0 0 1px #e4dced, 0 16px 40px rgba(57, 41, 75, 0.12);
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stage canvas { max-width: 100%; max-height: 100%; display: block; cursor: crosshair; }
+  .stage .drop {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #786f89;
+    font-size: 14px;
+    padding: 20px;
+  }
+  .drop b {
+    font-family: var(--display, 'Manrope', sans-serif);
+    font-weight: 700;
+    color: var(--ink, #281f3b);
+    font-size: 20px;
+    letter-spacing: -0.03em;
+  }
+  .drop .pill {
+    margin-top: 6px;
+    background: var(--ink, #281f3b);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-family: var(--sans, 'DM Sans', sans-serif);
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .drop .pill:hover { background: #413559; }
+  .stage.dragover { outline: 3px dashed #c23f86; outline-offset: -8px; }
+  .stage .hint {
+    position: absolute;
+    left: 14px;
+    bottom: 12px;
+    background: rgba(40, 31, 59, 0.85);
+    color: #fff;
+    font-family: var(--mono, monospace);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 6px 14px;
+    border-radius: 999px;
+    display: none;
+  }
+  .stage.loaded .hint { display: block; }
+  .stage.loaded .drop { display: none; }
+
+  .panel {
+    background: #fff;
+    border: 1px solid var(--line, #e9e2f0);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(57, 41, 75, 0.04);
+  }
+  .panel h2 {
+    font-family: var(--display, 'Manrope', sans-serif);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.04em;
+    margin-bottom: 16px;
+    color: var(--ink, #281f3b);
+  }
+  .row { margin-bottom: 18px; }
+  label {
+    display: block;
+    font-family: var(--mono, monospace);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #8b7d99;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .chips { display: flex; align-items: center; gap: 12px; }
+  .chip {
+    width: 48px; height: 48px; border-radius: 50%; border: 3px solid #fff;
+    box-shadow: 0 0 0 1px #e4dced, 0 4px 10px rgba(40, 31, 59, 0.12);
+    position: relative; flex: none;
+  }
+  .chip input[type=color] {
+    position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;
+  }
+  .arrow { font-size: 18px; color: #8b7d99; }
+  .hexes { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 0; }
+  .hexes input {
+    width: 100%; padding: 8px 10px; border: 1px solid var(--line, #e9e2f0); border-radius: 8px;
+    font-family: var(--mono, monospace); font-size: 12px; text-transform: uppercase;
+    background: #faf8fc; color: var(--ink, #281f3b);
+  }
+  .slider-row { display: flex; align-items: center; gap: 12px; }
+  .slider-row input[type=range] { flex: 1; accent-color: #c23f86; }
+  .slider-row output { font-family: var(--mono, monospace); font-size: 12px; color: #786f89; width: 32px; text-align: right; }
+  
+  .toggle { display: flex; gap: 8px; }
+  .toggle button {
+    flex: 1; padding: 9px 8px; border-radius: 8px; border: 1px solid var(--line, #e9e2f0);
+    background: #fff; font-family: var(--sans, 'DM Sans', sans-serif); font-size: 12px; font-weight: 500;
+    cursor: pointer; color: #786f89; transition: all .2s;
+  }
+  .toggle button.on {
+    background: var(--ink, #281f3b); color: #fff; border-color: var(--ink, #281f3b);
+  }
+  .actions { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+  .btn {
+    padding: 12px; border-radius: 8px; border: none; font-family: var(--sans, 'DM Sans', sans-serif);
+    font-weight: 600; font-size: 14px; cursor: pointer; transition: all .2s;
+  }
+  .btn.primary { background: #c23f86; color: #fff; }
+  .btn.primary:hover:not(:disabled) { background: #a82e70; }
+  .btn.primary:disabled { background: #e3c0d4; cursor: not-allowed; }
+  .btn.ghost {
+    background: transparent; border: 1px solid var(--line, #e9e2f0); color: var(--ink, #281f3b);
+    font-size: 13px; font-weight: 500;
+  }
+  .btn.ghost:hover:not(:disabled) { background: #faf8fc; }
+  .progress { display: none; margin-top: 10px; }
+  .progress.on { display: block; }
+  .progress .bar { height: 6px; border-radius: 99px; background: #eee7f7; overflow: hidden; }
+  .progress .bar i { display: block; height: 100%; width: 0%; background: #c23f86; border-radius: 99px; transition: width .3s; }
+  .progress span { font-family: var(--mono, monospace); font-size: 11px; color: #786f89; display: block; margin-top: 6px; }
+  .note { font-size: 12px; color: #8b7d99; line-height: 1.6; margin-top: 16px; border-top: 1px solid var(--line, #e9e2f0); padding-top: 14px; }
+  .meta { font-family: var(--mono, monospace); font-size: 11px; color: #8b7d99; margin-top: 12px; line-height: 1.5; word-break: break-all; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mp4-muxer@3/build/mp4-muxer.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="wordmark" href="../index.html" aria-label="Isnaevy home"><img class="brand-signature" src="../assets/isnaevy-logo.png" alt="Isnaevy" /></a>
+  <nav aria-label="Main navigation"><a href="../index.html#work">Work</a><a href="../journal.html">Journal</a><a href="../about.html">About</a><a class="nav-contact" href="../contact.html">Say hello <span>↗︎</span></a></nav>
+</header>
+
+<div class="app">
+  <header>
+    <p class="eyebrow" style="font-family:var(--mono,monospace);font-size:10px;letter-spacing:0.1em;color:#8b7d99;margin-bottom:8px;">INDEPENDENT UTILITY</p>
+    <h1>Dropper: <em>video chroma recolor.</em></h1>
+    <p>Drop in a video, click its background in the live preview to eyedrop the old color, pick a replacement, and export. Runs completely client-side via WebGL shaders — no uploads, no install.</p>
+  </header>
+
+  <div class="grid">
+    <div>
+      <div class="stage" id="stage">
+        <canvas id="gl" width="1920" height="1080"></canvas>
+        <div class="drop">
+          <b>Drop a video here</b>
+          <span>MP4 with a flat background, or transparent WebM</span>
+          <button class="pill" id="pickBtn">Choose file</button>
+          <input type="file" id="file" accept=".mp4,.webm,.mov,.m4v,.mkv,video/*" hidden>
+        </div>
+        <div class="hint">click the video to eyedrop the old color</div>
+      </div>
+      <div class="meta" id="meta"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Recolor</h2>
+
+      <div class="row">
+        <label>Video type</label>
+        <div class="toggle">
+          <button id="modeFlat" class="on">Flat background</button>
+          <button id="modeAlpha">Transparent</button>
+        </div>
+      </div>
+
+      <div class="row" id="colorRow">
+        <label>Old → new background</label>
+        <div class="chips">
+          <div class="chip" id="oldChip" style="background:#CDA9E8"><input type="color" id="oldColor" value="#CDA9E8"></div>
+          <div class="arrow">→</div>
+          <div class="chip" id="newChip" style="background:#F4D8A8"><input type="color" id="newColor" value="#F4D8A8"></div>
+          <div class="hexes">
+            <input id="oldHex" value="#CDA9E8" spellcheck="false">
+            <input id="newHex" value="#F4D8A8" spellcheck="false">
+          </div>
+        </div>
+      </div>
+
+      <div class="row" id="tolRow">
+        <label>Tolerance</label>
+        <div class="slider-row"><input type="range" id="tol" min="1" max="40" value="12"><output id="tolOut">12</output></div>
+      </div>
+
+      <div class="row" id="softRow">
+        <label>Edge softness</label>
+        <div class="slider-row"><input type="range" id="soft" min="0" max="20" value="6"><output id="softOut">6</output></div>
+      </div>
+
+      <div class="row">
+        <label>Export speed</label>
+        <div class="toggle">
+          <button id="spdTurbo" class="on">Turbo · 2fps</button>
+          <button id="spdReal">Real-time · 30fps</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="exportBtn" disabled>Export video</button>
+        <button class="btn ghost" id="replayBtn" disabled>Replay preview</button>
+      </div>
+
+      <div class="progress" id="prog">
+        <div class="bar"><i id="progBar"></i></div>
+        <span id="progText">Exporting…</span>
+      </div>
+
+      <p class="note"><b>Turbo</b> samples 2 frames per second and encodes with your GPU — a 25:00 timer exports in ~1–2 minutes. Perfect for timers and anything that changes slowly. Use <b>Real-time</b> for smooth motion (character loops, footage); it records at 30fps and takes as long as the video runs.</p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer wrap">
+  <a class="wordmark" href="../index.html" aria-label="Isnaevy home"><img class="brand-signature" src="../assets/isnaevy-logo.png" alt="Isnaevy" /></a>
+  <span class="footer-note">Thoughtfully made, one idea at a time.</span>
+  <div class="footer-right"><a href="../journal.html">Journal</a><a href="../about.html">About</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy</a><a href="https://github.com/Ishani018" target="_blank" rel="noreferrer">GitHub ↗︎</a><span>© <span id="year">2026</span> Isnaevy</span></div>
+</footer>
+
+<script>
+(function(){
+  const stage = document.getElementById('stage');
+  const canvas = document.getElementById('gl');
+  const fileInput = document.getElementById('file');
+  const meta = document.getElementById('meta');
+  const exportBtn = document.getElementById('exportBtn');
+  const replayBtn = document.getElementById('replayBtn');
+
+  const video = document.createElement('video');
+  video.muted = true; video.playsInline = true; video.loop = true;
+
+  let mode = 'flat';   // 'flat' | 'alpha'
+  let loaded = false, exporting = false, fileName = 'video';
+
+  // ---------- WebGL ----------
+  const gl = canvas.getContext('webgl', {preserveDrawingBuffer:true, alpha:false, antialias:false});
+  const vs = `attribute vec2 p; varying vec2 uv;
+    void main(){ uv = vec2(p.x*.5+.5, .5-p.y*.5); gl_Position = vec4(p,0.,1.); }`;
+  const fs = `precision mediump float;
+    varying vec2 uv; uniform sampler2D tex;
+    uniform vec3 oldC; uniform vec3 newC;
+    uniform float tol; uniform float soft; uniform float mode;
+    void main(){
+      vec4 c = texture2D(tex, uv);
+      if (mode > 0.5){
+        gl_FragColor = vec4(mix(newC, c.rgb, c.a), 1.0);
+      } else {
+        float d = distance(c.rgb, oldC);
+        float k = smoothstep(tol, tol + soft + 0.0001, d); // 0 = bg, 1 = keep
+        gl_FragColor = vec4(mix(newC, c.rgb, k), 1.0);
+      }
+    }`;
+  function shader(type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, shader(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, shader(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog); gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, 'p');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const tex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+  const U = n => gl.getUniformLocation(prog, n);
+
+  function hexToVec(h){
+    h = h.replace('#','');
+    return [parseInt(h.slice(0,2),16)/255, parseInt(h.slice(2,4),16)/255, parseInt(h.slice(4,6),16)/255];
+  }
+
+  function draw(){
+    if (!loaded) return;
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video); } catch(e){}
+    gl.uniform3fv(U('oldC'), hexToVec(oldColor.value));
+    gl.uniform3fv(U('newC'), hexToVec(newColor.value));
+    gl.uniform1f(U('tol'), tol.value / 100);
+    gl.uniform1f(U('soft'), soft.value / 100);
+    gl.uniform1f(U('mode'), mode === 'alpha' ? 1 : 0);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  function loop(){
+    draw();
+    if ('requestVideoFrameCallback' in video) video.requestVideoFrameCallback(loop);
+    else requestAnimationFrame(loop);
+  }
+
+  // ---------- load ----------
+  function fmtDur(d){
+    if (!isFinite(d)) return '–:–';
+    return Math.floor(d/60) + ':' + String(Math.floor(d%60)).padStart(2,'0');
+  }
+  function loadFile(f){
+    if (!f) return;
+    // Windows often reports an empty MIME type for .webm — accept by extension too
+    const looksVideo = f.type.startsWith('video') || /\.(mp4|webm|mov|m4v|mkv)$/i.test(f.name);
+    if (!looksVideo){ meta.textContent = '"' + f.name + '" doesn\'t look like a video file.'; return; }
+    fileName = f.name.replace(/\.[^.]+$/, '');
+    meta.textContent = 'Loading ' + f.name + '…';
+    video.onerror = () => {
+      meta.textContent = 'Couldn\'t decode "' + f.name + '" — this browser may not support its codec. Try Chrome or Edge.';
+    };
+    video.src = URL.createObjectURL(f);
+    video.onloadedmetadata = () => {
+      canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+      loaded = true;
+      stage.classList.add('loaded');
+      exportBtn.disabled = false; replayBtn.disabled = false;
+      // guess mode from extension
+      setMode(/\.webm$/i.test(f.name) ? 'alpha' : 'flat');
+      meta.textContent = f.name + ' · ' + video.videoWidth + '×' + video.videoHeight +
+        ' · ' + fmtDur(video.duration);
+      video.play();
+      loop();
+    };
+  }
+  document.getElementById('pickBtn').onclick = () => fileInput.click();
+  fileInput.onchange = e => loadFile(e.target.files[0]);
+  ;['dragover','dragleave','drop'].forEach(ev => stage.addEventListener(ev, e => {
+    e.preventDefault();
+    stage.classList.toggle('dragover', ev === 'dragover');
+    if (ev === 'drop') loadFile(e.dataTransfer.files[0]);
+  }));
+
+  // ---------- eyedropper ----------
+  canvas.addEventListener('click', e => {
+    if (!loaded || mode === 'alpha' || exporting) return;
+    const r = canvas.getBoundingClientRect();
+    const x = Math.floor((e.clientX - r.left) / r.width * canvas.width);
+    const y = Math.floor((e.clientY - r.top) / r.height * canvas.height);
+    // read from the raw video frame, not the recolored output
+    const tmp = document.createElement('canvas');
+    tmp.width = canvas.width; tmp.height = canvas.height;
+    const c2 = tmp.getContext('2d');
+    c2.drawImage(video, 0, 0);
+    const px = c2.getImageData(x, y, 1, 1).data;
+    const hex = '#' + [px[0],px[1],px[2]].map(v => v.toString(16).padStart(2,'0')).join('').toUpperCase();
+    setColor('old', hex);
+  });
+
+  // ---------- controls ----------
+  const oldColor = document.getElementById('oldColor'), newColor = document.getElementById('newColor');
+  const oldHex = document.getElementById('oldHex'), newHex = document.getElementById('newHex');
+  const oldChip = document.getElementById('oldChip'), newChip = document.getElementById('newChip');
+  const tol = document.getElementById('tol'), soft = document.getElementById('soft');
+
+  function setColor(which, hex){
+    if (!/^#[0-9a-fA-F]{6}$/.test(hex)) return;
+    hex = hex.toUpperCase();
+    (which === 'old' ? oldColor : newColor).value = hex;
+    (which === 'old' ? oldHex : newHex).value = hex;
+    (which === 'old' ? oldChip : newChip).style.background = hex;
+  }
+  oldColor.oninput = () => setColor('old', oldColor.value);
+  newColor.oninput = () => setColor('new', newColor.value);
+  oldHex.onchange = () => setColor('old', oldHex.value.startsWith('#') ? oldHex.value : '#' + oldHex.value);
+  newHex.onchange = () => setColor('new', newHex.value.startsWith('#') ? newHex.value : '#' + newHex.value);
+  tol.oninput = () => document.getElementById('tolOut').value = tol.value;
+  soft.oninput = () => document.getElementById('softOut').value = soft.value;
+
+  const modeFlat = document.getElementById('modeFlat'), modeAlpha = document.getElementById('modeAlpha');
+  function setMode(m){
+    mode = m;
+    modeFlat.classList.toggle('on', m === 'flat');
+    modeAlpha.classList.toggle('on', m === 'alpha');
+    document.getElementById('tolRow').style.opacity = m === 'alpha' ? .35 : 1;
+    document.getElementById('softRow').style.opacity = m === 'alpha' ? .35 : 1;
+  }
+  modeFlat.onclick = () => setMode('flat');
+  modeAlpha.onclick = () => setMode('alpha');
+
+  replayBtn.onclick = () => { video.currentTime = 0; video.play(); };
+
+  // ---------- export ----------
+  const progWrap = document.getElementById('prog'), progBar = document.getElementById('progBar'), progText = document.getElementById('progText');
+
+  // ---------- export speed toggle ----------
+  let speed = 'turbo';
+  const spdTurbo = document.getElementById('spdTurbo'), spdReal = document.getElementById('spdReal');
+  function setSpeed(s){
+    speed = s;
+    spdTurbo.classList.toggle('on', s === 'turbo');
+    spdReal.classList.toggle('on', s === 'real');
+  }
+  spdTurbo.onclick = () => setSpeed('turbo');
+  spdReal.onclick = () => setSpeed('real');
+
+  // ---------- turbo export: seek + WebCodecs encode, much faster than real time ----------
+  const turboSupported = () =>
+    typeof VideoEncoder !== 'undefined' && typeof VideoFrame !== 'undefined' && window.Mp4Muxer;
+
+  function seekTo(t){
+    return new Promise(res => {
+      const done = () => { video.removeEventListener('seeked', done); res(); };
+      video.addEventListener('seeked', done);
+      video.currentTime = t;
+    });
+  }
+
+  async function turboExport(outName){
+    const SAMPLE_FPS = 2;
+    const W2 = canvas.width - (canvas.width % 2);   // encoders need even dims
+    const H2 = canvas.height - (canvas.height % 2);
+    const codec = 'avc1.420028'; // H.264 baseline, level 4 (1080p)
+
+    const support = await VideoEncoder.isConfigSupported({codec, width: W2, height: H2});
+    if (!support.supported) throw new Error('encoder-unsupported');
+
+    const target = new Mp4Muxer.ArrayBufferTarget();
+    const muxer = new Mp4Muxer.Muxer({
+      target,
+      video: {codec: 'avc', width: W2, height: H2},
+      fastStart: 'in-memory',
+      firstTimestampBehavior: 'offset'
+    });
+    const encoder = new VideoEncoder({
+      output: (chunk, meta) => muxer.addVideoChunk(chunk, meta),
+      error: e => console.error(e)
+    });
+    encoder.configure({codec, width: W2, height: H2, bitrate: 1_500_000, framerate: SAMPLE_FPS});
+
+    video.pause();
+    const dur = video.duration;
+    const total = Math.floor(dur * SAMPLE_FPS);
+    const stepUs = Math.round(1e6 / SAMPLE_FPS);
+
+    for (let i = 0; i < total; i++){
+      if (!exporting) break; // cancelled
+      await seekTo(i / SAMPLE_FPS);
+      draw();
+      const frame = new VideoFrame(canvas, {timestamp: i * stepUs, duration: stepUs});
+      encoder.encode(frame, {keyFrame: i % 120 === 0});
+      frame.close();
+      if (encoder.encodeQueueSize > 8) await new Promise(r => setTimeout(r, 15));
+      if (i % 10 === 0){
+        const pct = i / total * 100;
+        progBar.style.width = pct.toFixed(1) + '%';
+        progText.textContent = 'Turbo export… ' + pct.toFixed(0) + '%';
+        await new Promise(r => setTimeout(r, 0)); // keep UI alive
+      }
+    }
+    await encoder.flush();
+    muxer.finalize();
+
+    const blob = new Blob([target.buffer], {type: 'video/mp4'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = outName;
+    a.click();
+  }
+
+  exportBtn.onclick = async () => {
+    if (!loaded || exporting) return;
+
+    // ---- turbo path ----
+    if (speed === 'turbo'){
+      if (!turboSupported()){
+        progWrap.classList.add('on');
+        progText.textContent = 'Turbo needs Chrome/Edge (WebCodecs) — falling back to real-time.';
+      } else {
+        exporting = true;
+        exportBtn.disabled = true;
+        progWrap.classList.add('on');
+        try {
+          await turboExport(fileName + '_' + newColor.value.slice(1) + '_turbo.mp4');
+          progText.textContent = 'Done — check your downloads.';
+        } catch(e){
+          console.error(e);
+          progText.textContent = 'Turbo failed (' + (e.message || e) + ') — try Real-time mode.';
+        }
+        exporting = false;
+        exportBtn.disabled = false;
+        video.loop = true; video.play();
+        setTimeout(() => progWrap.classList.remove('on'), 5000);
+        return;
+      }
+    }
+
+    // ---- real-time path ----
+    const types = [
+      'video/mp4;codecs=avc1', 'video/mp4',
+      'video/webm;codecs=vp9', 'video/webm'
+    ];
+    const mime = types.find(t => MediaRecorder.isTypeSupported(t)) || 'video/webm';
+    const ext = mime.startsWith('video/mp4') ? 'mp4' : 'webm';
+    const outName = fileName + '_' + newColor.value.slice(1) + '.' + ext;
+
+    // Long videos: stream straight to disk so memory never fills up.
+    // (File System Access API — Chrome/Edge. Falls back to in-memory for short clips.)
+    let writable = null, chunks = [], writeQueue = Promise.resolve();
+    if ('showSaveFilePicker' in window && (video.duration > 120 || !isFinite(video.duration))){
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: outName,
+          types: [{description: 'Video', accept: {[mime.split(';')[0]]: ['.' + ext]}}]
+        });
+        writable = await handle.createWritable();
+      } catch(e){ return; /* user cancelled the save dialog */ }
+    }
+
+    exporting = true;
+    exportBtn.disabled = true;
+    progWrap.classList.add('on');
+
+    // Keep drawing even when the tab is backgrounded (rAF throttles there).
+    // A 1s interval in a hidden tab still captures the timer's once-per-second changes.
+    const bgDraw = setInterval(draw, 250);
+
+    const stream = canvas.captureStream(30);
+    const rec = new MediaRecorder(stream, {mimeType: mime, videoBitsPerSecond: 3_000_000});
+    rec.ondataavailable = e => {
+      if (!e.data.size) return;
+      if (writable) writeQueue = writeQueue.then(() => writable.write(e.data));
+      else chunks.push(e.data);
+    };
+    rec.onstop = async () => {
+      clearInterval(bgDraw);
+      if (writable){
+        await writeQueue;
+        await writable.close();
+        progText.textContent = 'Done — saved to the file you chose.';
+      } else {
+        const blob = new Blob(chunks, {type: mime});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = outName;
+        a.click();
+        progText.textContent = 'Done — check your downloads.';
+      }
+      chunks = [];
+      exporting = false;
+      exportBtn.disabled = false;
+      video.loop = true; video.play();
+      setTimeout(() => progWrap.classList.remove('on'), 5000);
+    };
+
+    video.loop = false;
+    video.currentTime = 0;
+    video.onended = () => { if (exporting) rec.stop(); video.onended = null; };
+    const tick = setInterval(() => {
+      if (!exporting){ clearInterval(tick); return; }
+      const pct = video.duration ? (video.currentTime / video.duration * 100) : 0;
+      progBar.style.width = pct.toFixed(1) + '%';
+      progText.textContent = 'Exporting ' + ext.toUpperCase() + '… ' + pct.toFixed(0) + '%' +
+        (document.hidden ? ' (tab hidden — still going)' : '');
+    }, 400);
+    video.play().then(() => rec.start(2000));
+  };
+})();
+</script>
+</body>
+</html>

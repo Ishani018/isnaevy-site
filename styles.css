@@ -717,3 +717,47 @@ a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px #6d56aa}
     display: none;
   }
 }
+
+
+/* Individual project card headers & layout */
+.project-single-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 58px;
+}
+.project-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+.project-card-header h2 {
+  font: 600 clamp(32px, 4.2vw, 42px)/1.08 var(--display);
+  letter-spacing: -0.065em;
+  margin: 0;
+  color: var(--ink);
+}
+.project-card-header h2 em {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-style: italic;
+  color: #c23f86;
+}
+.project-card-header .section-note {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #786f89;
+  margin: 0;
+  max-width: 360px;
+  text-align: right;
+}
+@media(max-width: 720px) {
+  .project-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .project-card-header .section-note {
+    text-align: left;
+  }
+}

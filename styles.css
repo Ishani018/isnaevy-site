@@ -145,6 +145,7 @@ body{background:var(--paper);color:var(--ink);transition:background .25s ease,co
 .text-link span{color:var(--accent)}
 a:focus-visible{box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--focus-ring)}
 ::selection{background:var(--selection-bg);color:var(--selection-ink)}
+.hero-composition{height:420px;position:relative;display:grid;place-items:center}
 .composition-backdrop{position:absolute;width:75%;height:74%;background:var(--backdrop-bg);border-radius:28px;transform:rotate(6deg);transition:background .25s ease}
 .composition-card{position:relative;width:min(365px,82%);height:305px;background:#fff;box-shadow:0 24px 60px #3425451a,0 0 0 1px var(--line);padding:29px 31px;display:flex;flex-direction:column;transform:rotate(-3deg)}
 .composition-head{display:flex;justify-content:space-between;gap:12px;font:9px var(--mono);letter-spacing:.1em;color:var(--muted)}

@@ -11,11 +11,48 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9284664302294987" crossorigin="anonymous"></script>
+      <script>
+      (function(){
+        try{
+          var t=localStorage.getItem('isnaevy-theme');
+          if(t&&t!=='purple')document.documentElement.setAttribute('data-theme',t);
+        }catch(e){}
+      })();
+    </script>
   </head>
   <body>
     <header class="topbar">
       <a class="wordmark" href="index.html#top" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a>
-      <nav aria-label="Main navigation"><a href="index.html#work">Work</a><a href="journal.html">Journal</a><a href="about.html">About</a><a class="nav-contact" href="contact.html">Say hello <span>↗︎</span></a></nav>
+      <nav aria-label="Main navigation"><a href="index.html#work">Work</a><a href="journal.html">Journal</a><a href="about.html">About</a><div class="theme-picker" data-theme-picker>
+          <button class="theme-toggle-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Theme palette: Lavender">
+            <span class="theme-current-dot" aria-hidden="true"></span>
+            <span class="theme-btn-text">Theme</span>
+            <span class="theme-btn-caret" aria-hidden="true">▾</span>
+          </button>
+          <div class="theme-dropdown" role="menu" aria-label="Choose color theme" hidden>
+            <button class="theme-option" type="button" role="menuitem" data-theme-value="purple">
+              <span class="theme-swatch swatch-purple" aria-hidden="true"></span>
+              <span class="theme-option-label">Lavender</span>
+              <span class="theme-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="theme-option" type="button" role="menuitem" data-theme-value="blue">
+              <span class="theme-swatch swatch-blue" aria-hidden="true"></span>
+              <span class="theme-option-label">Baby Blue</span>
+              <span class="theme-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="theme-option" type="button" role="menuitem" data-theme-value="pink">
+              <span class="theme-swatch swatch-pink" aria-hidden="true"></span>
+              <span class="theme-option-label">Baby Pink</span>
+              <span class="theme-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="theme-option" type="button" role="menuitem" data-theme-value="green">
+              <span class="theme-swatch swatch-green" aria-hidden="true"></span>
+              <span class="theme-option-label">Baby Green</span>
+              <span class="theme-check" aria-hidden="true">✓</span>
+            </button>
+          </div>
+        </div>
+        <a class="nav-contact" href="contact.html">Say hello <span>↗︎</span></a></nav>
     </header>
     <main>
 <div class="wrap journal-hero"><p class="eyebrow">NEXT EXPERIMENTS</p><h1>Build logs that leave a trail someone else can follow</h1><p class="journal-deck">A field note by Ishani · about 2 min read</p></div><div class="wrap journal-layout page-single"><article class="journal-body">

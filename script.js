@@ -22,3 +22,87 @@ document.querySelectorAll('[data-carousel]').forEach(function(c){
   btn.addEventListener('click',function(){userPaused=!v.paused;if(userPaused)v.pause();else play()});
   if('IntersectionObserver' in window){new IntersectionObserver(function(e){inView=e[0].isIntersecting;update()},{threshold:.35}).observe(v)}else{inView=true;update()}
 })();
+
+/* Theme Picker: Lavender, Baby Blue, Baby Pink, Baby Green */
+(function(){
+  var STORAGE_KEY='isnaevy-theme';
+  var root=document.documentElement;
+  var pickers=document.querySelectorAll('[data-theme-picker]');
+  if(!pickers.length)return;
+
+  function getStoredTheme(){
+    try{return localStorage.getItem(STORAGE_KEY)||'purple'}catch(e){return 'purple'}
+  }
+
+  function applyTheme(theme){
+    if(theme==='purple'){
+      root.removeAttribute('data-theme');
+    }else{
+      root.setAttribute('data-theme',theme);
+    }
+    try{localStorage.setItem(STORAGE_KEY,theme)}catch(e){}
+    syncUI(theme);
+  }
+
+  function syncUI(theme){
+    var labels={purple:'Lavender',blue:'Baby Blue',pink:'Baby Pink',green:'Baby Green'};
+    pickers.forEach(function(picker){
+      var btn=picker.querySelector('.theme-toggle-btn');
+      var options=picker.querySelectorAll('[data-theme-value]');
+      if(btn){
+        btn.setAttribute('aria-label','Theme palette: '+(labels[theme]||'Lavender'));
+      }
+      options.forEach(function(opt){
+        var val=opt.getAttribute('data-theme-value');
+        var isActive=val===theme;
+        opt.classList.toggle('active',isActive);
+        opt.setAttribute('aria-selected',isActive?'true':'false');
+      });
+    });
+  }
+
+  var currentTheme=getStoredTheme();
+  applyTheme(currentTheme);
+
+  pickers.forEach(function(picker){
+    var btn=picker.querySelector('.theme-toggle-btn');
+    var menu=picker.querySelector('.theme-dropdown');
+    if(!btn||!menu)return;
+
+    function openMenu(){
+      menu.hidden=false;
+      btn.setAttribute('aria-expanded','true');
+    }
+    function closeMenu(){
+      menu.hidden=true;
+      btn.setAttribute('aria-expanded','false');
+    }
+
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(menu.hidden)openMenu();else closeMenu();
+    });
+
+    picker.querySelectorAll('[data-theme-value]').forEach(function(opt){
+      opt.addEventListener('click',function(e){
+        e.stopPropagation();
+        var selected=opt.getAttribute('data-theme-value');
+        applyTheme(selected);
+        closeMenu();
+        btn.focus();
+      });
+    });
+
+    document.addEventListener('click',function(e){
+      if(!picker.contains(e.target))closeMenu();
+    });
+
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape'&&!menu.hidden){
+        closeMenu();
+        btn.focus();
+      }
+    });
+  });
+})();
+

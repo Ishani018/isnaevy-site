@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f8f9f7" />
-    <meta name="description" content="Isnaevy is an independent studio by Ishani: games like Potted and Finlit, creative tools like Vera and Scoreplay Studio, and a journal of field notes." />
+    <meta name="description" content="Isnaevy is an independent studio by Ishani: interactive experiences like Eleven Eleven, games like Potted and Finlit, creative tools like Vera and Scoreplay Studio, and a journal of field notes." />
     <title>Isnaevy — made with intent</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -47,23 +47,15 @@
         <div class="explore-grid">
           <!-- Card 1: The Journal / Field Notes -->
           <div class="explore-card">
-            <div>
-              <div class="explore-card-main">
-                <div>
-                  <span class="explore-pill-tag pill-journal">📓 FIELD NOTES</span>
-                  <h3>Notes from<br><em>the workbench.</em></h3>
-                  <p>Design decisions, open questions, and lessons from making digital objects: game loops, life sims, canvas tooling, and evaluating AI trust.</p>
-                </div>
-                <div class="explore-card-illu">
-                  <img src="assets/Kawaii Pastel Study Sticker Set.png" alt="Open field notes journal notebook with warm tea mug illustration" loading="lazy">
-                </div>
+            <div class="explore-card-main">
+              <div>
+                <p class="eyebrow">FIELD NOTES</p>
+                <h3>Notes from<br><em>the workbench.</em></h3>
+                <p>Design decisions, open questions, and lessons from making digital objects: game loops, life sims, canvas tooling, and evaluating AI trust.</p>
               </div>
-
-              <!-- Mid banner -->
-              <a class="explore-banner banner-journal" href="journal.html">
-                <span class="banner-left">📄 6 NOTES · 4 PROJECTS</span>
-                <span class="banner-right">Explore Field Notes <span class="banner-arrow-circle">→</span></span>
-              </a>
+              <div class="explore-card-illu">
+                <img src="assets/Kawaii Pastel Study Sticker Set.png" alt="Open field notes journal notebook with warm tea mug illustration" loading="lazy">
+              </div>
             </div>
 
             <!-- Footer row -->
@@ -79,35 +71,23 @@
 
           <!-- Card 2: Studio Workbench (Clipper & Plopper) -->
           <div class="explore-card">
-            <div>
-              <div class="explore-card-main">
-                <div>
-                  <span class="explore-pill-tag pill-tools">🎮 STUDIO WORKBENCH</span>
-                  <h3>Clipper &amp;<br><em>Plopper.</em></h3>
-                  <p>Tiny, zero-dependency browser tools built for game makers and artists. Remove sprite backgrounds losslessly and arrange assets with exact center coordinates.</p>
-                </div>
-                <div class="explore-card-illu illu-workbench">
-                  <img src="assets/Cute Pixel Cat Editor Sticker.png" alt="Pixel sprite editor tool window with cute cat sticker illustration" loading="lazy">
-                </div>
+            <div class="explore-card-main">
+              <div>
+                <p class="eyebrow">STUDIO WORKBENCH</p>
+                <h3>Clipper &amp;<br><em>Plopper.</em></h3>
+                <p>Tiny, zero-dependency browser tools built for game makers and artists. Remove sprite backgrounds losslessly and arrange assets with exact center coordinates.</p>
               </div>
-
-              <!-- Mid banner -->
-              <div class="explore-banner banner-tools">
-                <span class="banner-left">🥞 WEB UTILITIES</span>
-                <span class="banner-right">100% Client-side Canvas <span class="banner-arrow-circle">→</span></span>
+              <div class="explore-card-illu illu-workbench">
+                <img src="assets/Cute Pixel Cat Editor Sticker.png" alt="Pixel sprite editor tool window with cute cat sticker illustration" loading="lazy">
               </div>
             </div>
 
             <!-- Footer row -->
             <div class="explore-card-foot">
-              <div class="tag-group">
-                <a class="explore-sublink-btn" href="clipper.html">Clipper Studio ↗︎</a>
-                <span style="color:#c5bcd2;font-size:12px;">·</span>
-                <a class="explore-sublink-btn" href="plopper.html">Plopper Studio ↗︎</a>
-              </div>
-              <div style="display:flex;gap:8px;">
-                <a class="explore-action-btn" href="clipper.html" style="background:#281f3b;">✂ Clipper <span>↗︎</span></a>
-                <a class="explore-action-btn" href="plopper.html" style="background:#281f3b;">🫳 Plopper <span>↗︎</span></a>
+              <span class="explore-meta-note">Canvas tools · Zero dependencies</span>
+              <div class="explore-btn-group">
+                <a class="explore-action-btn" href="clipper.html">Clipper <span>↗︎</span></a>
+                <a class="explore-action-btn" href="plopper.html">Plopper <span>↗︎</span></a>
               </div>
             </div>
           </div>
@@ -118,7 +98,46 @@
       <section class="work-section" id="work">
         <div class="wrap project-single-wrap">
 
-          <!-- Project 01: Vera -->
+          <!-- Project 01: Eleven Eleven -->
+          <div>
+            <div class="project-card-header">
+              <div>
+                <p class="eyebrow">AN INTERACTIVE WISH-MAKING EXPERIENCE</p>
+                <h2>Meet <em>Eleven Eleven.</em></h2>
+              </div>
+              <p class="section-note">A little space for wishes, wonder,<br />and the magic of 11:11.</p>
+            </div>
+            <article class="project-card eleven-card" aria-labelledby="eleven-title">
+              <div class="eleven-visual">
+                <span class="eleven-spark spark-1" aria-hidden="true">✦</span>
+                <span class="eleven-spark spark-2" aria-hidden="true">✦</span>
+                <span class="eleven-spark spark-3" aria-hidden="true">✦</span>
+                <span class="eleven-spark spark-4" aria-hidden="true">✦</span>
+                <div class="eleven-stage">
+                  <a class="eleven-stage-link" href="https://eleveneleven.isnaevy.com/" target="_blank" rel="noopener noreferrer" aria-label="Explore Eleven Eleven (opens in a new tab)">
+                    <video class="eleven-video" data-eleven-video muted loop playsinline preload="metadata" width="1280" height="708" poster="assets/eleven-eleven-poster.jpg" aria-label="Walkthrough of Eleven Eleven: typing a wish on a vintage typewriter, choosing a sticker, sealing the wish in an envelope, and browsing the Wish Wall">
+                      <source src="assets/eleven-eleven-preview.mp4" type="video/mp4" />
+                    </video>
+                    <span class="visual-open" aria-hidden="true">↗︎</span>
+                  </a>
+                  <button class="eleven-toggle" type="button" data-eleven-toggle aria-label="Play preview" hidden><span class="eleven-toggle-icon" aria-hidden="true"></span></button>
+                </div>
+                <div class="eleven-strip">
+                  <div class="eleven-brand">
+                    <img class="eleven-logo" src="assets/eleven-eleven-logo.png" alt="Eleven Eleven" width="760" height="171" loading="lazy" />
+                    <span class="eleven-time"><b>11:11</b> MAKE A WISH</span>
+                  </div>
+                  <figure class="eleven-still"><img src="assets/eleven-eleven-write.jpg" alt="A blank parchment sheet in a vintage typewriter, prompting: something you truly wish for in your own life" width="720" height="402" loading="lazy" /><figcaption>Write</figcaption></figure>
+                  <figure class="eleven-still"><img src="assets/eleven-eleven-stickers.jpg" alt="An ornate golden sticker tray with hearts, a fairy, a rainbow, rings, and love letters" width="720" height="402" loading="lazy" /><figcaption>Decorate</figcaption></figure>
+                  <figure class="eleven-still"><img src="assets/eleven-eleven-sealed.jpg" alt="A wish sealed in a flowered envelope with a red wax heart above the typewriter" width="720" height="402" loading="lazy" /><figcaption>Seal</figcaption></figure>
+                </div>
+              </div>
+              <div class="project-meta"><div><p class="project-kind">01 / INTERACTIVE EXPERIENCE <span class="coming-pill live-pill">LIVE</span></p><h3 id="eleven-title">Eleven Eleven</h3><p class="project-desc">A little space for wishes, wonder, and the magic of 11:11.</p></div><a class="button button-dark eleven-cta" href="https://eleveneleven.isnaevy.com/" target="_blank" rel="noopener noreferrer">Explore Eleven Eleven <span aria-hidden="true">↗︎</span><span class="sr-only"> (opens in a new tab)</span></a></div>
+              <div class="project-foot"><span>Interactive experience · Creative web · Personal project</span><span class="project-links"><span>eleveneleven.isnaevy.com</span></span></div>
+            </article>
+          </div>
+
+          <!-- Project 02: Vera -->
           <div>
             <div class="project-card-header">
               <div>
@@ -130,12 +149,12 @@
             <article class="project-card vera-card">
               <a class="project-visual vera-visual" href="https://vera.isnaevy.com" target="_blank" rel="noreferrer" aria-label="Visit Vera"><img class="vera-screenshot" src="assets/vera-dashboard-new.jpg" alt="Vera dashboard showing design sizes, creative tools, and recent work" /><span class="visual-open">↗︎</span>
               </a>
-              <div class="project-meta"><div><p class="project-kind">01 / CREATIVE CANVAS <span class="coming-pill">COMING SOON</span></p><h3>Vera</h3><p class="project-desc">Vera is an independent creative canvas for designing, arranging, and bringing ideas to life — a more personal take on an all-in-one visual studio.</p></div><a class="round-link" href="https://vera.isnaevy.com" target="_blank" rel="noreferrer" aria-label="Open Vera">↗︎</a></div>
+              <div class="project-meta"><div><p class="project-kind">02 / CREATIVE CANVAS <span class="coming-pill">COMING SOON</span></p><h3>Vera</h3><p class="project-desc">Vera is an independent creative canvas for designing, arranging, and bringing ideas to life — a more personal take on an all-in-one visual studio.</p></div><a class="round-link" href="https://vera.isnaevy.com" target="_blank" rel="noreferrer" aria-label="Open Vera">↗︎</a></div>
               <div class="project-foot"><span>Creative studio · Coming soon</span><span class="project-links"><a href="vera.html">Project page <span>→</span></a><a href="https://vera.isnaevy.com" target="_blank" rel="noreferrer">Open Vera <span>↗︎</span></a><a href="https://github.com/Ishani018/book" target="_blank" rel="noreferrer">Source on GitHub <span>↗︎</span></a></span></div>
             </article>
           </div>
 
-          <!-- Project 02: Finlit -->
+          <!-- Project 03: Finlit -->
           <div>
             <div class="project-card-header">
               <div>
@@ -157,12 +176,12 @@
                 </div>
                 <span class="finlit-coming">COMING SOON</span>
               </div>
-              <div class="project-meta"><div><p class="project-kind">02 / GAME <span class="coming-pill">COMING SOON</span></p><h3>Finlit</h3><p class="project-desc">A pixel-art life sim about money, work, and everyday choices — making financial literacy part of the story.</p></div><a class="round-link" href="https://github.com/Ishani018/finlit" target="_blank" rel="noreferrer" aria-label="Open Finlit on GitHub">↗︎</a></div>
+              <div class="project-meta"><div><p class="project-kind">03 / GAME <span class="coming-pill">COMING SOON</span></p><h3>Finlit</h3><p class="project-desc">A pixel-art life sim about money, work, and everyday choices — making financial literacy part of the story.</p></div><a class="round-link" href="https://github.com/Ishani018/finlit" target="_blank" rel="noreferrer" aria-label="Open Finlit on GitHub">↗︎</a></div>
               <div class="project-foot"><span>Pixel art · Life sim · In development</span><span class="project-links"><a href="finlit.html">Project page <span>→</span></a><a href="https://github.com/Ishani018/finlit" target="_blank" rel="noreferrer">Explore on GitHub <span>↗︎</span></a></span></div>
             </article>
           </div>
 
-          <!-- Project 03: Potted -->
+          <!-- Project 04: Potted -->
           <div>
             <div class="project-card-header">
               <div>
@@ -187,7 +206,7 @@
                 <button class="carousel-btn next" type="button" aria-label="Next screenshot">›</button>
                 <div class="carousel-dots" role="tablist" aria-label="Choose screenshot"></div>
               </div>
-              <div class="project-meta"><div><p class="project-kind">03 / GAME <span class="coming-pill">IN DEVELOPMENT</span></p><h3>Potted</h3><p class="project-desc">A cozy pixel-art plant nursery game. Buy seeds, plant and water them, watch them bloom, decorate your rooms, and adopt pets along the way.</p></div><a class="round-link" href="https://github.com/Ishani018/Potted" target="_blank" rel="noreferrer" aria-label="Open Potted on GitHub">↗︎</a></div>
+              <div class="project-meta"><div><p class="project-kind">04 / GAME <span class="coming-pill">IN DEVELOPMENT</span></p><h3>Potted</h3><p class="project-desc">A cozy pixel-art plant nursery game. Buy seeds, plant and water them, watch them bloom, decorate your rooms, and adopt pets along the way.</p></div><a class="round-link" href="https://github.com/Ishani018/Potted" target="_blank" rel="noreferrer" aria-label="Open Potted on GitHub">↗︎</a></div>
               <div class="project-foot"><span>React Native · Expo · Pixel art</span><span class="project-links"><a href="potted.html">Project page <span>→</span></a><a href="https://github.com/Ishani018/Potted" target="_blank" rel="noreferrer">Explore on GitHub <span>↗︎</span></a></span></div>
             </article>
           </div>

@@ -45,12 +45,12 @@ document.querySelectorAll('[data-carousel]').forEach(function(c){
   }
 
   function syncUI(theme){
-    var labels={purple:'Lavender',blue:'Baby Blue',pink:'Baby Pink',green:'Baby Green'};
+    var labels={purple:'Purple',blue:'Blue',pink:'Pink',green:'Green'};
     pickers.forEach(function(picker){
       var btn=picker.querySelector('.theme-toggle-btn');
       var options=picker.querySelectorAll('[data-theme-value]');
       if(btn){
-        btn.setAttribute('aria-label','Theme palette: '+(labels[theme]||'Lavender'));
+        btn.setAttribute('aria-label','Theme palette: '+(labels[theme]||'Purple'));
       }
       options.forEach(function(opt){
         var val=opt.getAttribute('data-theme-value');

@@ -205,6 +205,24 @@ body { background: var(--paper); }
 .project-tile.featured p { font-size: .98rem; max-width: 420px; }
 .project-tag .work-status.is-live { color: #F2D08A; }
 
+/* Hover affordance — makes the click target explicit without relying
+   purely on cursor:pointer. */
+.tile-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  font: 600 .74rem var(--sans);
+  color: #fff;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.project-tile:hover .tile-view, .project-tile:focus-visible .tile-view { opacity: 1; transform: translateY(0); }
+@media (hover: none) {
+  .tile-view { opacity: 1; transform: none; }
+}
+
 @media (max-width: 900px) {
   .project-tiles { grid-template-columns: repeat(2, 1fr); }
   .project-tile.featured { aspect-ratio: 16/10; }
@@ -222,15 +240,24 @@ body { background: var(--paper); }
 .block-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 28px; }
 .block-num { font: 600 .85rem var(--mono); color: var(--accent); margin: 0; }
 .block-head h2 {
-  font: 600 clamp(1.6rem, 2.6vw, 2rem)/1.1 var(--display);
-  letter-spacing: -.03em;
+  font: 600 clamp(1.9rem, 3.2vw, 2.5rem)/1.1 var(--display);
+  letter-spacing: -.035em;
   color: var(--ink);
   margin: 0;
 }
 .block-rule { flex: 1; height: 1px; background: var(--line); margin-left: 6px; }
 
-.about-text p { color: var(--muted); font-size: 1rem; line-height: 1.8; max-width: 640px; margin: 0 0 16px; }
+.about-text p { color: var(--muted); font-size: 1.1rem; line-height: 1.75; max-width: 640px; margin: 0 0 18px; }
 .about-text strong { color: var(--ink); font-weight: 600; }
+.about-text p:first-child { font-size: 1.3rem; color: var(--ink); line-height: 1.55; font-family: var(--display); letter-spacing: -.01em; }
+.about-text p:first-child strong { font-family: var(--serif); font-weight: 400; font-style: italic; color: var(--accent); }
+
+/* ---------- Scroll reveal — purposeful, respects reduced motion ---------- */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
 
 .work-status { font: 600 .68rem var(--mono); letter-spacing: .06em; text-transform: uppercase; }
 

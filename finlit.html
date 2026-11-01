@@ -5,12 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#fcfaff" />
-    <meta name="description" content="Finlit is a pixel-art mobile financial-literacy RPG about work, housing, debt, investing and retirement, designed so every money decision has readable consequences." />
-    <title>Finlit — a pixel-art financial life simulation — Isnaevy</title>
+    <meta name="description" content="Finlit is a free pixel-art life simulator about money. Start at 18 with ₹50,000, build a career, buy cars and homes, raise a family, manage credit, and retire. Watch the trailer." />
+    <meta property="og:title" content="Finlit — live a whole life | Isnaevy" />
+    <meta property="og:description" content="A pixel-art life sim about money, work and choices. Start at 18, retire at 58, leave a legacy." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.isnaevy.com/assets/finlit/poster.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Finlit — live a whole life — Isnaevy</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="finlit.css" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9284664302294987" crossorigin="anonymous"></script>
       <script>
       (function(){
@@ -21,7 +27,7 @@
       })();
     </script>
   </head>
-  <body>
+  <body class="fl">
     <header class="topbar">
       <a class="wordmark" href="index.html#top" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a>
       <nav aria-label="Main navigation"><a href="index.html#work">Work</a><a href="journal.html">Journal</a><a href="about.html">About</a><div class="theme-picker" data-theme-picker>
@@ -56,27 +62,132 @@
         <a class="nav-contact" href="contact.html">Say hello <span>↗︎</span></a></nav>
     </header>
     <main>
-<div class="wrap journal-hero"><p class="eyebrow">PROJECT · GAME</p><h1>Finlit: money as part of <em>a life.</em></h1><p class="journal-deck">A pixel-art life simulation about work, money and everyday choices.</p></div><div class="wrap journal-layout page-single"><article class="journal-body"><section><p class="eyebrow">01 / OVERVIEW</p><h2>What Finlit is</h2>
-<p><strong>Finlit</strong> is a mobile financial-literacy RPG and life simulation in pixel art. The player makes everyday money decisions and sees how they affect a life over time.</p>
-<figure class="journal-figure"><img src="assets/finlit-gameplay.jpg" alt="Finlit gameplay showing a player home, money and wellbeing stats" loading="lazy" /><figcaption>Gameplay: the player’s home, money and wellbeing stats.</figcaption></figure></section>
-<section><p class="eyebrow">02 / SYSTEMS</p><h2>What the game models</h2>
-<div class="stat-row"><div class="stat"><strong>Work</strong><span>salary &amp; needs</span></div><div class="stat"><strong>Home</strong><span>housing &amp; debt</span></div><div class="stat"><strong>Future</strong><span>investing &amp; retirement</span></div></div>
-<p>The systems described in the project connect work and salary to everyday needs, health, housing, debt, investing, family events and long-term retirement goals. The aim is to treat money as part of a life rather than a spreadsheet detached from consequences.</p>
-<figure class="journal-figure"><img src="assets/finlit-characters.jpg" alt="Finlit character selection screen with different financial play styles" loading="lazy" /><figcaption>Character selection, with different financial play styles.</figcaption></figure></section>
-<section><p class="eyebrow">03 / DESIGN GOAL</p><h2>Readable cause and effect</h2>
-<div class="loop-diagram"><div class="loop-step"><b>1</b><span>Player choice</span></div><i>→</i><div class="loop-step"><b>2</b><span>Visible change</span></div><i>→</i><div class="loop-step"><b>3</b><span>Month-end explanation</span></div><i>→</i><div class="loop-step"><b>4</b><span>Better next choice</span></div></div>
-<p>The hard design problem is making consequences understandable. If the player takes a job, buys groceries, advances a month or buys a home, the game should show what changed and why. I write about this in the field note <a href="journal-finlit.html">“Turning money decisions into a life simulation”</a>.</p>
-<div class="journal-callout"><strong>Status:</strong> in development. The project README and source are on <a href="https://github.com/Ishani018/finlit" target="_blank" rel="noreferrer">GitHub</a>.</div></section><section><p class="eyebrow">04 / INSIDE THE GAME</p><h2>A look inside</h2>
-<p>A few of the screens players move through — from creating a character to picking a money personality and watching it all play out over a lifetime.</p>
-<div class="finlit-shots-grid">
-  <img src="assets/finlit/feature-vault.png" alt="Finlit title screen: Crack the Vault! Your money journey starts here." loading="lazy" />
-  <img src="assets/finlit/feature-budget.png" alt="Finlit character creation: Born to Budget — name yourself, pick your birthday" loading="lazy" />
-  <img src="assets/finlit/feature-personality.png" alt="Finlit archetype selection: Pick Your Money Personality — 8 characters, 8 superpowers" loading="lazy" />
-  <img src="assets/finlit/feature-growup.png" alt="Finlit aging system: Watch Yourself Grow Up — from fresh grad to silver-haired tycoon" loading="lazy" />
-  <img src="assets/finlit/feature-adulting.webp" alt="Finlit starting dashboard: Adulting Level 1 — ₹50,000, one tiny room, zero excuses" loading="lazy" />
+<div class="wrap">
+  <section class="fl-hero">
+    <div>
+      <p class="eyebrow">PROJECT · GAME · ANDROID</p>
+      <h1>Live a whole life, <em>one month</em> at a time.</h1>
+      <p class="fl-deck">Finlit is a free pixel-art life simulator about money. Start at 18 with ₹50,000 and a tiny hostel room. Work, borrow, fall in love, raise a family and retire, and see what every decision really costs.</p>
+      <div class="fl-actions">
+        <a class="fl-btn primary" href="#trailer">▶ Watch the trailer</a>
+        <a class="fl-btn ghost" href="https://play.google.com/store/apps/details?id=com.isnaevy.finlit" target="_blank" rel="noreferrer">Google Play ↗︎</a>
+        <a class="fl-btn ghost" href="https://github.com/Ishani018/finlit" target="_blank" rel="noreferrer">GitHub ↗︎</a>
+      </div>
+      <p class="fl-note">FREE · ANDROID · PLAY STORE LISTING IN CLOSED TESTING</p>
+    </div>
+    <div class="fl-hero-art">
+      <img class="main" src="assets/finlit/feature.jpg" alt="Finlit: start at 18, retire at 58. Pixel-art life simulator with the four starting characters and the home screen." width="1024" height="500" />
+      <div class="fl-badge"><b>18 → 75</b>A WHOLE LIFE</div>
+    </div>
+  </section>
+
+  <section class="fl-video" id="trailer">
+    <div class="fl-video-card">
+      <video controls playsinline preload="metadata" poster="assets/finlit/poster.jpg" aria-label="Finlit trailer">
+        <source src="assets/finlit/finlit-trailer.mp4" type="video/mp4" />
+        Your browser can’t play this video. <a href="assets/finlit/finlit-trailer.mp4">Download the trailer</a>.
+      </video>
+    </div>
+    <div class="fl-video-cap"><span>TRAILER · 57 SEC</span><span>SOUND ON</span></div>
+  </section>
+
+  <div class="fl-stats">
+    <div class="fl-stat"><b>57</b><span>Years played, age 18 to 75</span></div>
+    <div class="fl-stat"><b>36</b><span>Vehicles, from bicycle to jet</span></div>
+    <div class="fl-stat"><b>24</b><span>Homes to rent or buy</span></div>
+    <div class="fl-stat"><b>8</b><span>Characters, each with a money style</span></div>
+  </div>
+
+  <section class="fl-row">
+    <div class="fl-copy">
+      <p class="eyebrow">01 / WORK</p>
+      <h2>Pick your <em>hustle.</em></h2>
+      <p>Take gigs, climb a career ladder or start your own business. Apply, wait, get rejected, try again. Pay, rank and risk all change what you can afford next month.</p>
+      <ul class="fl-list"><li>Gigs, careers and freelance work with real downsides</li><li>Monthly summaries that explain why your money moved</li><li>Retire at 58 and live on a pension from your PPF and NPS</li></ul>
+    </div>
+    <div class="fl-media"><div class="fl-phone"><img src="assets/finlit/screen-career.webp" alt="Finlit career screen with job listings and monthly pay" loading="lazy" /></div><div class="fl-phone lift"><img src="assets/finlit/screen-hero.webp" alt="Finlit character selection with life stages" loading="lazy" /></div></div>
+  </section>
+
+  <section class="fl-row flip">
+    <div class="fl-copy">
+      <p class="eyebrow">02 / WHEELS</p>
+      <h2>Cash, EMI, or <em>keep walking?</em></h2>
+      <p>Every vehicle in the game, from a bicycle to a private jet. Pay in cash or finance it, then live with the running costs, the resale value and the EMI that never forgets you.</p>
+      <ul class="fl-list"><li>36 vehicles across bikes, cars, boats and air</li><li>Showroom, second-hand market and your own garage</li><li>Miss three EMIs and the bank takes the car</li></ul>
+    </div>
+    <div class="fl-media stage"><video class="fl-clip" src="assets/finlit/finlit-vehicles.mp4" poster="assets/finlit/shot-3_cars.webp" autoplay muted loop playsinline preload="none" aria-label="A quick tour of all 36 vehicles in Finlit"></video></div>
+  </section>
+
+  <section class="fl-row">
+    <div class="fl-copy">
+      <p class="eyebrow">03 / HOME</p>
+      <h2>From hostel to <em>dream home.</em></h2>
+      <p>Start in a hostel room. Rent, pay in cash or take a home loan, move in or stay where you are. Homes you own but don’t live in can earn rent.</p>
+      <ul class="fl-list"><li>24 homes, from shared student rooms to a villa with a home theatre</li><li>Rent, buy outright or take a 20-year home loan</li><li>Property tax and upkeep are part of owning</li></ul>
+    </div>
+    <div class="fl-media stage"><video class="fl-clip" src="assets/finlit/finlit-homes.mp4" poster="assets/finlit/shot-4_home.webp" autoplay muted loop playsinline preload="none" aria-label="A quick tour of all 24 homes in Finlit"></video></div>
+  </section>
+
+  <section class="fl-row flip">
+    <div class="fl-copy">
+      <p class="eyebrow">04 / FAMILY</p>
+      <h2>Marriage, babies and <em>a party every year.</em></h2>
+      <p>Get married, welcome surprise babies and twins, and plan each birthday from a quiet dinner to a full party. Save into the birthday jar so the big day doesn’t hurt.</p>
+      <ul class="fl-list"><li>Kids, parents and spouse each have their own needs</li><li>Adopt a dog, cat or parrot, solo or married</li><li>Plan solo trips or family holidays across eight destinations</li></ul>
+    </div>
+    <div class="fl-media"><div class="fl-phone"><img src="assets/finlit/screen-bdroom.webp" alt="Finlit birthday planner with the year calendar and birthday jar" loading="lazy" /></div><div class="fl-phone lift"><img src="assets/finlit/screen-pets_mine.webp" alt="Finlit pets screen showing a dog and a cat at home" loading="lazy" /></div></div>
+  </section>
+
+  <section class="fl-row">
+    <div class="fl-copy">
+      <p class="eyebrow">05 / CREDIT</p>
+      <h2>Loans: friend or <em>frenemy?</em></h2>
+      <p>Your CIBIL score is a living thing. Pay on time and it climbs. Miss an EMI and it drops 30 points. Dispute errors on your report, use the credit builder, and learn what a score unlocks.</p>
+      <ul class="fl-list"><li>A full credit report with factors and history</li><li>Dispute mistakes, with a fee and no guarantee</li><li>Taxes, loans, cards and the estate you leave behind</li></ul>
+    </div>
+    <div class="fl-media"><div class="fl-phone"><img src="assets/finlit/screen-cibil.webp" alt="Finlit CIBIL score report with factors" loading="lazy" /></div><div class="fl-phone lift"><img src="assets/finlit/screen-custom.webp" alt="Finlit wardrobe screen for changing tops and shoes" loading="lazy" /></div></div>
+  </section>
+
+  <section class="fl-life">
+    <p class="eyebrow">THE ARC</p>
+    <h2>One life, <em>on the clock.</em></h2>
+    <p>Finlit runs month by month. Save early, take smart risks and build something to leave behind.</p>
+    <div class="fl-track">
+      <div class="fl-ms"><b>Age 18</b><span>₹50,000, one hostel room, zero excuses.</span></div>
+      <div class="fl-ms"><b>20s–40s</b><span>Careers, homes, marriage, children and debt.</span></div>
+      <div class="fl-ms"><b>Age 58</b><span>Retire on a pension built from your PPF and NPS.</span></div>
+      <div class="fl-ms"><b>Age 75</b><span>The estate is taxed, split, and a child takes over.</span></div>
+    </div>
+  </section>
+
+  <section class="fl-gallery">
+    <h2>Screens from the game</h2>
+    <div class="fl-strip">
+      <figure><img src="assets/finlit/shot-1_life.webp" alt="Live a whole life" loading="lazy" /><figcaption>Live a whole life</figcaption></figure>
+      <figure><img src="assets/finlit/shot-2_career.webp" alt="Pick your hustle" loading="lazy" /><figcaption>Pick your hustle</figcaption></figure>
+      <figure><img src="assets/finlit/shot-3_cars.webp" alt="Buy your dream ride" loading="lazy" /><figcaption>Dream ride</figcaption></figure>
+      <figure><img src="assets/finlit/shot-4_home.webp" alt="Find your dream home" loading="lazy" /><figcaption>Dream home</figcaption></figure>
+      <figure><img src="assets/finlit/shot-5_family.webp" alt="Start a family" loading="lazy" /><figcaption>Start a family</figcaption></figure>
+      <figure><img src="assets/finlit/shot-6_pets.webp" alt="Adopt a pet" loading="lazy" /><figcaption>Adopt a pet</figcaption></figure>
+      <figure><img src="assets/finlit/shot-7_holiday.webp" alt="Take a holiday" loading="lazy" /><figcaption>Pack your bags</figcaption></figure>
+      <figure><img src="assets/finlit/shot-8_cibil.webp" alt="Loans and the CIBIL score" loading="lazy" /><figcaption>Loans and CIBIL</figcaption></figure>
+      <figure><img src="assets/finlit/shot-9_style.webp" alt="Dress the part" loading="lazy" /><figcaption>Dress the part</figcaption></figure>
+      <figure><img src="assets/finlit/shot-10_bank.webp" alt="Bank and investing" loading="lazy" /><figcaption>Bank and money</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="fl-cta">
+    <div>
+      <h2>Play Finlit. It’s free.</h2>
+      <p>Built by one person, with every number, screen and pixel made to teach you something without feeling like a lesson. The source is open on GitHub.</p>
+      <div class="fl-actions"><a class="fl-btn primary" href="https://play.google.com/store/apps/details?id=com.isnaevy.finlit" target="_blank" rel="noreferrer">Google Play ↗︎</a><a class="fl-btn ghost" href="https://github.com/Ishani018/finlit" target="_blank" rel="noreferrer">View on GitHub ↗︎</a></div>
+    </div>
+    <img src="assets/finlit/feature.jpg" alt="Finlit key art" loading="lazy" width="1024" height="500" />
+  </section>
+
+  <section class="related fl-more"><a class="related-card" href="journal-finlit.html"><span>FIELD NOTE</span><strong>Turning money decisions into a life simulation</strong></a><a class="related-card" href="index.html#work"><span>ALL WORK</span><strong>Back to projects</strong></a></section>
 </div>
-</section><section class="related"><p class="eyebrow">RELATED</p><div class="related-grid"><a class="related-card" href="journal-finlit.html"><span>FIELD NOTE</span><strong>Turning money decisions into a life simulation</strong></a><a class="related-card" href="index.html#work"><span>ALL WORK</span><strong>Back to projects</strong></a></div></section></article></div>
-    </main>
+</main>
     <footer class="footer wrap"><a class="wordmark" href="index.html" aria-label="Isnaevy home"><img class="brand-signature" src="assets/isnaevy-logo.png" alt="Isnaevy" /></a><span class="footer-note">Thoughtfully made, one idea at a time.</span><div class="footer-right"><a href="journal.html">Journal</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="https://github.com/Ishani018" target="_blank" rel="noreferrer">GitHub ↗︎</a><span>© <span id="year">2026</span> Isnaevy</span></div></footer>
     <script src="script.js"></script>
   </body>
